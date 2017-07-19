@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Lambdas\Dynamics\**" />
+    <EmbeddedResource Remove="Lambdas\Dynamics\**" />
+    <None Remove="Lambdas\Dynamics\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Services\" />
+    <Folder Include="Domain\DomainEvent\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspectCore.Core" Version="0.1.2" />
+    <PackageReference Include="AspectCore.Extensions.Autofac" Version="0.1.2" />
+    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="0.1.2" />
+    <PackageReference Include="Autofac" Version="4.6.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="Dapper" Version="1.50.2" />
+    <PackageReference Include="Dapper.Contrib" Version="1.50.0" />
+    <PackageReference Include="Enums.NET" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.4.1" />
+    <PackageReference Include="protobuf-net" Version="2.3.0" />
+  </ItemGroup>
+
+</Project>
