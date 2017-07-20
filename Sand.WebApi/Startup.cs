@@ -54,7 +54,7 @@ namespace Sand.WebApi
     }
 
     /// <summary>
-    /// autofac注入模块
+    /// autofac注入模块（扫描程序集）
     /// </summary>
     public class DefaultIocConfig : IocConfig
     {

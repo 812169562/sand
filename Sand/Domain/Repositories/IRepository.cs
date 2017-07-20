@@ -191,6 +191,18 @@ namespace Sand.Domain.Repositories
         /// <param name="id">实体编号</param>
         /// <returns></returns>
         Task DeleteAsync(TPrimaryKey id);
+        /// <summary>
+        /// 删除实体集合
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        void Delete(IList<TPrimaryKey> id);
+        /// <summary>
+        /// 删除实体集合
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        /// <returns></returns>
+        Task DeleteAsync(IList<TPrimaryKey> id);
+
         #endregion
 
         #region Count

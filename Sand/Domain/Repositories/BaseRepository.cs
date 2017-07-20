@@ -5,134 +5,247 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Sand.Context;
+using Sand.Domain.Uow;
 
 namespace Sand.Domain.Repositories
 {
+    /// <summary>
+    /// 仓储基类
+    /// </summary>
+    /// <typeparam name="TEntity">实体</typeparam>
+    /// <typeparam name="TPrimaryKey">实体主键类型</typeparam>
     public abstract class BaseRepository<TEntity, TPrimaryKey> : IRepository<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
     {
-        public int Count(Expression<Func<TEntity, bool>> predicate)
+        /// <summary>
+        /// 工作单元
+        /// </summary>
+        protected IUnitOfWork Uow { get; set; }
+        /// <summary>
+        /// 用户上下文
+        /// </summary>
+        public virtual IUserContext UserContext { get; set; }
+
+        /// <summary>
+        /// 获取条数
+        /// </summary>
+        /// <param name="predicate">条件表达式</param>
+        /// <returns>条数</returns>
+        public abstract int Count(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 异步获取条数
+        /// </summary>
+        /// <param name="predicate">条件表达式</param>
+        /// <returns>条数</returns>
+        public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Count(predicate));
         }
 
-        public Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+        /// <summary>
+        /// 创建对象
+        /// </summary>
+        /// <param name="entity">实体对象</param>
+        /// <returns>创建的实体对象</returns>
+        public abstract TEntity Create(TEntity entity);
+
+        /// <summary>
+        /// 异步创建对象
+        /// </summary>
+        /// <param name="entity">实体对象</param>
+        /// <returns>创建的实体对象</returns>
+        public virtual async Task<TEntity> CreateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Create(entity));
         }
 
-        public TEntity Create(TEntity entity)
+        /// <summary>
+        /// 创建对象集合
+        /// </summary>
+        /// <param name="entities">实体对象集合</param>
+        /// <returns>创建对象集合</returns>
+        public abstract IList<TEntity> CreateList(IList<TEntity> entities);
+
+        /// <summary>
+        /// 异步创建对象集合
+        /// </summary>
+        /// <param name="entities">实体对象集合</param>
+        /// <returns>创建对象集合</returns>
+        public virtual async Task<IList<TEntity>> CreateListAsync(IList<TEntity> entities)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(CreateList(entities));
         }
 
-        public Task<TEntity> CreateAsync(TEntity entity)
+        /// <summary>
+        /// 创建对象集合
+        /// </summary>
+        /// <param name="entity">实体对象集合</param>
+        /// <returns>实体主键</returns>
+        public abstract TPrimaryKey CreateReturnId(TEntity entity);
+
+        /// <summary>
+        /// 异步创建对象集合
+        /// </summary>
+        /// <param name="entity">实体对象集合</param>
+        /// <returns>实体主键</returns>
+        public virtual async Task<TPrimaryKey> CreateReturnIdAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(CreateReturnId(entity));
         }
 
-        public IList<TEntity> CreateList(IList<TEntity> entities)
+        /// <summary>
+        /// 删除实体
+        /// </summary>
+        /// <param name="entity">删除实体</param>
+        public abstract void Delete(TEntity entity);
+
+        /// <summary>
+        /// 删除实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        public abstract void Delete(TPrimaryKey id);
+
+        /// <summary>
+        /// 异步删除实体
+        /// </summary>
+        /// <param name="entity">删除实体</param>
+        public virtual Task DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            Delete(entity);
+            return Task.FromResult(0);
         }
 
-        public Task<IList<TEntity>> CreateListAsync(IList<TEntity> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TPrimaryKey CreateReturnId(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TPrimaryKey> CreateReturnIdAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(TPrimaryKey id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// 异步删除实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
         public Task DeleteAsync(TPrimaryKey id)
         {
-            throw new NotImplementedException();
+            Delete(id);
+            return Task.FromResult(0);
         }
 
-        public IQueryable<TEntity> Retrieve()
+        /// <summary>
+        /// 删除实体集合
+        /// </summary>
+        /// <param name="ids">实体编号集合</param>
+        public abstract void Delete(IList<TPrimaryKey> ids);
+
+        /// <summary>
+        /// 异步删除实体集合
+        /// </summary>
+        /// <param name="ids">实体编号</param>
+        /// <returns></returns>
+        public virtual Task DeleteAsync(IList<TPrimaryKey> ids)
         {
-            throw new NotImplementedException();
+            Delete(ids);
+            return Task.FromResult(0);
         }
 
-        public IQueryable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate)
+        /// <summary>
+        /// 获取实体查询对象
+        /// </summary>
+        /// <returns>查询对象</returns>
+        public abstract IQueryable<TEntity> Retrieve();
+
+        /// <summary>
+        /// 查询对象
+        /// </summary>
+        /// <param name="predicate">条件表达式</param>
+        /// <returns>实体对象</returns>
+        public abstract IQueryable<TEntity> Retrieve(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 获取所有集合
+        /// </summary>
+        /// <returns>获取所有集合</returns>
+        public abstract IList<TEntity> RetrieveAll();
+
+        /// <summary>
+        /// 异步获取所有集合
+        /// </summary>
+        /// <returns>获取所有集合</returns>
+        public virtual async Task<IList<TEntity>> RetrieveAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(RetrieveAll());
         }
 
-        public IList<TEntity> RetrieveAll()
+        /// <summary>
+        /// 异步获取查询对象
+        /// </summary>
+        /// <param name="predicate">条件表达式</param>
+        /// <returns>实体对象</returns>
+        public virtual async Task<IQueryable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Retrieve(predicate));
         }
 
-        public Task<IList<TEntity>> RetrieveAllAsync()
+        /// <summary>
+        /// 根据编号查询实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        /// <returns>创建后的实体集</returns>
+        public abstract TEntity RetrieveById(TPrimaryKey id);
+
+        /// <summary>
+        /// 异步根据编号查询实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        /// <returns>创建后的实体集</returns>
+        public virtual async Task<TEntity> RetrieveByIdAsync(TPrimaryKey id)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(RetrieveById(id));
         }
 
-        public Task<IQueryable<TEntity>> RetrieveAsync(Expression<Func<TEntity, bool>> predicate)
+        /// <summary>
+        /// 异步根据编号集合查询实体
+        /// </summary>
+        /// <param name="ids">实体编号</param>
+        /// <returns>创建后的实体集</returns>
+        public abstract IList<TEntity> RetrieveByIds(IList<TPrimaryKey> ids);
+
+        /// <summary>
+        /// 异步根据编号集合查询实体
+        /// </summary>
+        /// <param name="ids">实体编号</param>
+        /// <returns>创建后的实体集</returns>
+        public virtual async Task<IList<TEntity>> RetrieveByIdsAsync(IList<TPrimaryKey> ids)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(RetrieveByIds(ids));
         }
 
-        public TEntity RetrieveById(TPrimaryKey id)
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="entity">更新实体</param>
+        /// <returns>更新后实体</returns>
+        public abstract TEntity Update(TEntity entity);
+
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        /// <param name="updateAction">更新动作</param>
+        /// <returns></returns>
+        public abstract TEntity Update(TPrimaryKey id, Action<TEntity> updateAction);
+
+        /// <summary>
+        /// 异步更新实体
+        /// </summary>
+        /// <param name="entity">更新实体</param>
+        /// <returns>更新后实体</returns>
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Update(entity));
         }
 
-        public Task<TEntity> RetrieveByIdAsync(TPrimaryKey id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<TEntity> RetrieveByIds(IList<TPrimaryKey> ids)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<TEntity>> RetrieveByIdsAsync(IList<TPrimaryKey> ids)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity Update(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity Update(TPrimaryKey id, Action<TEntity> updateAction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TEntity> UpdateAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TEntity> UpdateAsync(TPrimaryKey id, Func<TEntity, Task> updateAction)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// 异步更新实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        /// <param name="updateAction">更新动作</param>
+        /// <returns></returns>
+        public abstract Task<TEntity> UpdateAsync(TPrimaryKey id, Func<TEntity, Task> updateAction);
     }
 }
