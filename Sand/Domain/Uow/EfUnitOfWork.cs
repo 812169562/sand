@@ -43,7 +43,7 @@ namespace Sand.Domain.Uow
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Task>();
+            //modelBuilder.Entity<Task>().HasQueryFilter(t=>t.);
             //foreach (IMapRegister mapper in GetMaps())
             //    mapper.Register(modelBuilder.Configurations);
         }
