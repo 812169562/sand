@@ -11,6 +11,6 @@ namespace Sand.Domain.Uow
    /// </summary>
    public   static class DataFilters
    {
-       public const string SoftDelete = "SoftDelete";
+       public const string SoftDelete = "IsDeleted";
    }
 }

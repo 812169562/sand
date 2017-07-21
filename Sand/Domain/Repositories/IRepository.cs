@@ -5,9 +5,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Sand.Dependency;
 using Sand.Domain.Entities;
+using Sand.Filter;
 
 namespace Sand.Domain.Repositories
 {
+    [LogInterceptor]
     /// <summary>
     /// 仓储接口
     /// </summary>

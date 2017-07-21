@@ -21,6 +21,11 @@ namespace Sand.Domain.Repositories
         /// 工作单元
         /// </summary>
         protected IUnitOfWork Uow { get; set; }
+        protected BaseRepository(IUnitOfWork unitOfWork)
+        {
+            Uow = unitOfWork;
+        }
+
         /// <summary>
         /// 用户上下文
         /// </summary>
