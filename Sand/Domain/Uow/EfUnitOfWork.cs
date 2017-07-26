@@ -8,12 +8,16 @@ using Sand.Dependency;
 using Microsoft.EntityFrameworkCore.Storage;
 using Sand.Maps;
 using Sand.Domain.Entities;
+using Sand.Data;
+using System.Reflection;
+using Microsoft.Extensions.DependencyModel;
+using System.Linq;
+using System.Runtime.Loader;
 
 namespace Sand.Domain.Uow
 {
     public class EfUnitOfWork : DbContext, IUnitOfWork
     {
-
         public string ConnectionString { get; set; }
         //public EfUnitOfWork(string connectionString)
         //{
@@ -51,12 +55,8 @@ namespace Sand.Domain.Uow
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //if (typeof(TEntity) is ISoftDelete)
-            //{
-            //    //modelBuilder.Entity<TEntity>().HasQueryFilter(t =>(bool)t.GetType().GetProperty(DataFilters.SoftDelete).GetValue(t)==true);
-            //}
-            //foreach (IMapRegister mapper in GetMaps())
-            //    mapper.Register(modelBuilder.Configurations);
+            foreach (IMapRegister mapper in GetMaps())
+                mapper.Register(modelBuilder);
         }
 
         /// <summary>
@@ -68,35 +68,33 @@ namespace Sand.Domain.Uow
         {
             ConnectionString = "server=.;database=Sand;uid=sa;pwd=sa;MultipleActiveResultSets=true";
             optionsBuilder.UseSqlServer(ConnectionString);
+        }
 
-            //services.AddDbContext<MyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //var pathConfig = Application.Ioc.Resolve<LocalPathConfig>();
-            //if (string.Compare(DatabaseName, "MSSQL", true) == 0)
-            //{
-            //    optionsBuilder.UseSqlServer(
-            //        ConnectionString, option => option.UseRowNumberForPaging());
-            //}
-            //else if (string.Compare(DatabaseName, "SQLite", true) == 0)
-            //{
-            //    optionsBuilder.UseSqlite(
-            //        ConnectionString.Replace("{{App_Data}}", pathConfig.AppDataDirectory));
-            //}
-            //else if (string.Compare(DatabaseName, "MySQL", true) == 0)
-            //{
-            //    optionsBuilder.UseMySql(ConnectionString);
-            //}
-            //else if (string.Compare(DatabaseName, "PostgreSQL", true) == 0)
-            //{
-            //    optionsBuilder.UseNpgsql(ConnectionString);
-            //}
-            //else if (string.Compare(DatabaseName, "InMemory", true) == 0)
-            //{
-            //    optionsBuilder.UseInMemoryDatabase();
-            //}
-            //else
-            //{
-            //    throw new ArgumentException($"unsupported database type {Database}");
-            //}
+        /// <summary>
+        /// 获取映射配置
+        /// </summary>
+        private IEnumerable<IMapRegister> GetMaps()
+        {
+            var result = new List<IMapRegister>();
+            foreach (var assembly in GetAssemblies())
+                result.AddRange(Helpers.Reflection.GetTypesByInterface<IMapRegister>(assembly));
+            return result;
+        }
+
+        /// <summary>
+        /// 获取定义映射配置的程序集列表
+        /// </summary>
+        protected virtual Assembly[] GetAssemblies()
+        {
+            var assemblies = new List<Assembly>();
+            var dependencyContext = DependencyContext.Default;
+            var libs = dependencyContext.CompileLibraries.Where(lib => !lib.Serviceable && lib.Type != "package");
+            foreach (var lib in libs)
+            {
+                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(lib.Name));
+                assemblies.Add(assembly);
+            }
+            return assemblies.ToArray();
         }
     }
 }
