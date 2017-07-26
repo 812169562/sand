@@ -14,6 +14,10 @@ namespace Sand.Data
             {
                 //builder.HasQueryFilter(t=>t.);
             }
+            MapTable(builder);
+            MapVersion(builder);
+            MapProperties(builder);
+            MapAssociations(builder);
         }
 
         /// <summary>
@@ -26,7 +30,7 @@ namespace Sand.Data
         /// </summary>
         protected virtual void MapVersion(EntityTypeBuilder<TEntity> builder)
         {
-            //builder.Property(t => t.Version).IsRowVersion();
+            builder.Property(t => t.Version).IsRowVersion();
         }
 
         /// <summary>

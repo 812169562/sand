@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sand.Filter;
 using Sand.Service;
+using Sand.Helpers;
+using Sand.Maps;
 
 namespace Sand.Api.Controllers
 {
@@ -24,6 +26,18 @@ namespace Sand.Api.Controllers
         public IEnumerable<string> Get()
         {
             var ff = _baseDataRepository.Retrieve();
+            var list = ff.ToList();
+            //foreach (var item in list)
+            //{
+            //    item.Id = Uuid.Next();
+            //}
+            var data = new BaseData();
+            list.First().MapTo(data);
+            data.Id= Uuid.Next();
+            var mm = list.First();
+            mm.LastUpdateName = "xx";
+            _baseDataRepository.Update(list.First());
+            _baseDataRepository.Create(data);
             _baseDataRepository.Test();
             _service.CallBack("111");
             return new string[] { "value1", "value2" };

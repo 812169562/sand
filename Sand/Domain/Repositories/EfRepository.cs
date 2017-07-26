@@ -35,17 +35,23 @@ namespace Sand.Domain.Repositories
         {
             //entity.SetCreator(UserContext);
             //entity.Validate();
-            return Table.Add(entity).Entity;
+            //Table.Add(entity);
+            AttachIfNot(entity);
+            Uow.Entry(entity).State = EntityState.Added;
+            Uow.SaveChanges();
+            return entity;
         }
         public override IList<TEntity> CreateList(IList<TEntity> entities)
         {
-            //foreach (var entity in entities)
-            //{
-            //    entity.SetCreator(UserContext);
-            //    entity.Validate();
-            //}
-            //return Table.AddRange(entities);
-            return null;
+            foreach (var entity in entities)
+            {
+                //entity.SetCreator(UserContext);
+               // entity.Validate();
+            }
+            Table.AddRange(entities);
+            //Uow.Entry(entities).State = EntityState.Added;
+            Uow.SaveChanges();
+            return entities;
         }
 
         public override TPrimaryKey CreateReturnId(TEntity entity)
@@ -81,6 +87,7 @@ namespace Sand.Domain.Repositories
             //entity.Validate();
             AttachIfNot(entity);
             Uow.Entry(entity).State = EntityState.Modified;
+            Uow.SaveChanges();
             return entity;
         }
 
