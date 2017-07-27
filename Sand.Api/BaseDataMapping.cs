@@ -12,7 +12,12 @@ namespace Sand.Api
     {
         protected override void MapTable(EntityTypeBuilder<BaseData> builder)
         {
-            //ToTable("basedata", "system");
+
+        }
+
+        protected override void MapSoftDelete(EntityTypeBuilder<BaseData> builder)
+        {
+            builder.HasQueryFilter(t => t.IsDeleted == false);
         }
     }
 }

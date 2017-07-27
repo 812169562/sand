@@ -7,6 +7,7 @@ using Sand.Filter;
 using Sand.Service;
 using Sand.Helpers;
 using Sand.Maps;
+using Sand.Context;
 
 namespace Sand.Api.Controllers
 {
@@ -15,6 +16,9 @@ namespace Sand.Api.Controllers
     {
         private readonly IBaseDataRepository _baseDataRepository;
         private readonly IService _service;
+        public IUserContext UserContext { get; set; }
+
+        private readonly IUserContext _userContext;
 
         public ValuesController(IService service, IBaseDataRepository baseDataRepository)
         {
@@ -23,7 +27,7 @@ namespace Sand.Api.Controllers
         }
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<string>> Get()
         {
             var ff = _baseDataRepository.Retrieve();
             var list = ff.ToList();
@@ -33,14 +37,15 @@ namespace Sand.Api.Controllers
             //}
             var data = new BaseData();
             list.First().MapTo(data);
-            data.Id= Uuid.Next();
+            data.Id = Uuid.Next();
+            data.LastUpdateTime = DateTime.UtcNow;
             var mm = list.First();
-            mm.LastUpdateName = "xx";
-            _baseDataRepository.Update(list.First());
-            _baseDataRepository.Create(data);
+            await _baseDataRepository.CreateAsync(data);
+            mm.LastUpdateName = DateTime.Now.ToString();
+            await _baseDataRepository.UpdateAsync(list.First());
             _baseDataRepository.Test();
             _service.CallBack("111");
-            return new string[] { "value1", "value2" };
+            return await Task.FromResult(new string[] { "value1", "value2" });
         }
 
         // GET api/values/5

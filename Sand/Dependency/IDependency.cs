@@ -10,4 +10,9 @@ namespace Sand.Dependency
     public interface IDependency
     {
     }
+
+    public interface IDependencyProperty
+    {
+    }
+
 }

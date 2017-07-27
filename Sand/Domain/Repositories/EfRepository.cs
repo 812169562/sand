@@ -18,7 +18,7 @@ namespace Sand.Domain.Repositories
 
         protected new EfUnitOfWork Uow { get; set; }
 
-        public EfRepository(IUnitOfWork uow):base(uow)
+        public EfRepository(IUnitOfWork uow) : base(uow)
         {
             Uow = (EfUnitOfWork)base.Uow;
         }
@@ -33,30 +33,18 @@ namespace Sand.Domain.Repositories
 
         public override TEntity Create(TEntity entity)
         {
-            //entity.SetCreator(UserContext);
-            //entity.Validate();
-            //Table.Add(entity);
-            AttachIfNot(entity);
-            Uow.Entry(entity).State = EntityState.Added;
-            Uow.SaveChanges();
+            Table.Add(entity);
             return entity;
         }
         public override IList<TEntity> CreateList(IList<TEntity> entities)
         {
-            foreach (var entity in entities)
-            {
-                //entity.SetCreator(UserContext);
-               // entity.Validate();
-            }
             Table.AddRange(entities);
-            //Uow.Entry(entities).State = EntityState.Added;
-            Uow.SaveChanges();
             return entities;
         }
 
         public override TPrimaryKey CreateReturnId(TEntity entity)
         {
-           // entity.SetCreator(UserContext);
+            //entity.SetCreator(UserContext);
             //entity.Validate();
             return Create(entity).Id;
         }
@@ -133,7 +121,7 @@ namespace Sand.Domain.Repositories
 
         public override void Delete(TEntity entity)
         {
-           // entity.SetUpdate(UserContext);
+            // entity.SetUpdate(UserContext);
             AttachIfNot(entity);
             if (entity is ISoftDelete)
             {
@@ -157,7 +145,7 @@ namespace Sand.Domain.Repositories
 
     public class EfRepository<TEntity> : EfRepository<TEntity, Guid> where TEntity : class, IEntity<Guid>
     {
-        public EfRepository(IUnitOfWork uow):base(uow)
+        public EfRepository(IUnitOfWork uow) : base(uow)
         {
         }
     }

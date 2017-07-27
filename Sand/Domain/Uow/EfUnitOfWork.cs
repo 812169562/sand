@@ -32,22 +32,22 @@ namespace Sand.Domain.Uow
 
         public void Complete()
         {
-            throw new NotImplementedException();
+            this.SaveChanges();
         }
 
-        public Task CompleteAsync()
+        public async Task CompleteAsync()
         {
-            throw new NotImplementedException();
+            await this.SaveChangesAsync();
         }
 
         public void RollBack()
         {
-            throw new NotImplementedException();
+            this.RollBack();
         }
 
-        public Task RollBackAsync()
+        public async Task RollBackAsync()
         {
-            throw new NotImplementedException();
+            await this.RollBackAsync();
         }
 
         public IDbConnection DbConnection { get; }

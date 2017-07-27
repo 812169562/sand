@@ -20,6 +20,8 @@ using NLog.Web;
 using Sand.Domain.Uow;
 using Sand.Domain.Entities;
 using Sand.Service;
+using Sand.Context;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Sand.Api
 {
@@ -32,9 +34,12 @@ namespace Sand.Api
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule<DefaultIocConfig>();
             containerBuilder.RegisterType<EfUnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
-            //containerBuilder.RegisterType<BaseService>().As<IService>().InstancePerLifetimeScope().AsInterfacesProxy();
-            //containerBuilder.RegisterType<BaseDataRepository>().As<IBaseDataRepository>().InstancePerLifetimeScope().AsInterfacesProxy();
-            //containerBuilder.RegisterAspectCore();
+            //builder.Register(c => new A { B = c.Resolve<B>() });
+            //containerBuilder.RegisterType<IUserContext>().WithProperty("UserContext", new TestUserContext());
+            //containerBuilder.RegisterType<TestUserContext>().As<IUserContext>().InstancePerLifetimeScope();
+            //containerBuilder.Register(c => new TestUserContext(c.Resolve<IUserContext>()))
+            //.As<IUserContext>().PropertiesAutowired()
+            //.InstancePerLifetimeScope();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             return container.Resolve<IServiceProvider>();
@@ -47,7 +52,7 @@ namespace Sand.Api
             loggerFactory.AddNLog();
             env.ConfigureNLog("nlog.config");
             app.UseMvc();
-        }
+    }
         /// <summary>
         /// autofac注入模块（扫描程序集）
         /// </summary>
@@ -68,6 +73,11 @@ namespace Sand.Api
                 builder.RegisterAssemblyTypes(assemblies.ToArray())
                     .Where(t => typeBase.IsAssignableFrom(t) && t != typeBase && !t.GetTypeInfo().IsAbstract)
                     .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+                var typeBaseProperty = typeof(IDependencyProperty);
+                builder.RegisterAssemblyTypes(assemblies.ToArray())
+                  .Where(t => typeBase.IsAssignableFrom(t) && t != typeBase && !t.GetTypeInfo().IsAbstract)
+                  .AsImplementedInterfaces().PropertiesAutowired().InstancePerLifetimeScope();
             }
         }
     }

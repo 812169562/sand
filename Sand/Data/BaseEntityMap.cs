@@ -10,14 +10,11 @@ namespace Sand.Data
         public void Register(ModelBuilder modelBuilder)
         {
             var builder = modelBuilder.Entity<TEntity>();
-            if (typeof(TEntity) is ISoftDelete)
-            {
-                //builder.HasQueryFilter(t=>t.);
-            }
             MapTable(builder);
             MapVersion(builder);
             MapProperties(builder);
             MapAssociations(builder);
+            MapSoftDelete(builder);
         }
 
         /// <summary>
@@ -44,6 +41,13 @@ namespace Sand.Data
         /// 映射导航属性
         /// </summary>
         protected virtual void MapAssociations(EntityTypeBuilder<TEntity> builder)
+        {
+        }
+
+        /// <summary>
+        /// 添加软删除映射
+        /// </summary>
+        protected virtual void MapSoftDelete(EntityTypeBuilder<TEntity> builder)
         {
         }
     }
