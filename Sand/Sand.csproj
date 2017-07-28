@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Lambdas\Dynamics\**" />
-    <EmbeddedResource Remove="Lambdas\Dynamics\**" />
-    <None Remove="Lambdas\Dynamics\**" />
+    <Compile Remove="Extension\EmitExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>

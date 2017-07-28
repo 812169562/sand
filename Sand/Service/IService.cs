@@ -3,20 +3,173 @@ using Sand.Filter;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Sand.Result;
+using Sand.Domain.Query;
+using Sand.Domain.Entities;
 
 namespace Sand.Service
 {
-    [LogInterceptor]
-    public interface IService: IDependency
+    /// <summary>
+    /// 服务接口
+    /// </summary>
+    public interface IService : IDependency
     {
-        string CallBack(string m);
     }
 
-    public class BaseService : IService
+    /// <summary>
+    /// 服务接口
+    /// </summary>
+    /// <typeparam name="TDto">数据传输对象</typeparam>
+    /// <typeparam name="TQuery">查询对象</typeparam>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TPrimaryKey"></typeparam>
+    public interface IService<TDto, TQuery, TEntity, TPrimaryKey> : IService where TDto : IDto where TQuery : IQuery<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
     {
-        public string CallBack(string m)
-        {
-            return m;
-        }
+        /// <summary>
+        /// 创建对象
+        /// </summary>
+        /// <param name="dto">数据传输对象</param>
+        TDto Create(TDto dto);
+        /// <summary>
+        /// 创建实体
+        /// </summary>
+        /// <param name="dto">实体</param>
+        Task<TDto> CreateAsync(TDto dto);
+        /// <summary>
+        /// 创建实体集
+        /// </summary>
+        /// <param name="dtos">实体集</param>
+        /// <returns>创建后的实体集</returns>
+        IList<TDto> CreateList(IList<TDto> dtos);
+        /// <summary>
+        /// 创建实体集
+        /// </summary>
+        /// <param name="dtos">实体集</param>
+        /// <returns>创建后的实体集</returns>
+        Task<IList<TDto>> CreateListAsync(IList<TDto> dtos);
+        /// <summary>
+        /// 创建实体返回编号
+        /// </summary>
+        /// <param name="dto">实体</param>
+        TPrimaryKey CreateReturnId(TDto dto);
+        /// <summary>
+        /// 创建实体返回编号
+        /// </summary>
+        /// <param name="dto">实体</param>
+        Task<TPrimaryKey> CreateReturnIdAsync(TDto dto);
+        /// <summary>
+        /// 查询集合
+        /// </summary>
+        /// <param name="query">查询对象</param>
+        /// <returns></returns>
+        IList<TDto> Retrieve(TQuery query);
+        /// <summary>
+        /// 查询集合
+        /// </summary>
+        /// <param name="query">查询对象</param>
+        /// <returns></returns>
+        Task<IList<TDto>> RetrieveAsync(TQuery query);
+        /// <summary>
+        /// 根据编号查询实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        /// <returns>查询实体集</returns>
+        TDto RetrieveById(TPrimaryKey id);
+        /// <summary>
+        /// 根据编号查询实体
+        /// </summary>
+        /// <param name="id">实体编号</param>
+        /// <returns>查询实体集</returns>
+        Task<TDto> RetrieveByIdAsync(TPrimaryKey id);
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="query">查询对象</param>
+        /// <returns></returns>
+        Paged<TDto> Page(TQuery query);
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="query">查询对象</param>
+        /// <returns></returns>
+        Task<Paged<TDto>> PageAsync(TQuery query);
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="dto">数据传输对象</param>
+        void Update(TDto dto);
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="dto">数据传输对象</param>
+        TDto UpdateReturn(TDto dto);
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="dto">数据传输对象</param>
+        /// <returns>更新实体</returns>
+        Task UpdateAsync(TDto dto);
+        /// <summary>
+        /// 更新实体
+        /// </summary>
+        /// <param name="dto">数据传输对象</param>
+        Task<TDto> UpdateReturnAsync(TDto dto);
+        /// <summary>
+        /// 更新实体集合
+        /// </summary>
+        /// <param name="dtos">数据传输对象集合</param>
+        void UpdateList(IList<TDto> dtos);
+        /// <summary>
+        /// 更新实体集合
+        /// </summary>
+        /// <param name="dtos">数据传输对象集合</param>
+        IList<TDto> UpdateListReturn(IList<TDto> dtos);
+        /// <summary>
+        /// 更新实体集合
+        /// </summary>
+        /// <param name="dtos">数据传输对象集合</param>
+        Task UpdateListAsync(IList<TDto> dtos);
+        /// <summary>
+        /// 更新实体集合
+        /// </summary>
+        /// <param name="dtos">数据传输对象集合</param>
+        Task<IList<TDto>> UpdateListReturnAsync(IList<TDto> dtos);
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="ids">编号集合</param>
+        void Delete(IList<TPrimaryKey> ids);
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="ids">编号集合</param>
+        Task DeleteAsync(IList<TPrimaryKey> ids);
+        /// <summary>
+        /// 删除集合
+        /// </summary>
+        /// <param name="dtos">编号集合</param>
+        void Delete(IList<TDto> dtos);
+        /// <summary>
+        /// 删除集合
+        /// </summary>
+        /// <param name="dtos">编号集合</param>
+        Task DeleteAsync(IList<TDto> dtos);
+        /// <summary>
+        /// 新增或者更新
+        /// </summary>
+        /// <param name="dto">实体</param>
+        TDto CreateOrUpdate(TDto dto);
+        /// <summary>
+        /// 新增或者更新
+        /// </summary>
+        /// <param name="dto">实体</param>
+        Task<TDto> CreateOrUpdateAsync(TDto dto);
+
+    }
+
+    public interface IService<TDto, TQuery, TEntity> : IService<TDto, TQuery, TEntity, Guid> where TDto : IDto where TQuery : IQuery<TEntity, Guid> where TEntity : class, IEntity<Guid>
+    {
+
     }
 }

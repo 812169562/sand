@@ -22,12 +22,14 @@ namespace Sand.Lambdas.Dynamics {
             return (Expression<Func<T, S>>)ParseLambda( typeof( T ), typeof( S ), expression, values );
         }
 
-        public static Type CreateClass( params DynamicProperty[] properties ) {
-            return ClassFactory.Instance.GetDynamicClass( properties );
+        public static Type CreateClass(params DynamicProperty[] properties)
+        {
+            return ClassFactory.Instance.GetDynamicClass(properties);
         }
 
-        public static Type CreateClass( IEnumerable<DynamicProperty> properties ) {
-            return ClassFactory.Instance.GetDynamicClass( properties );
+        public static Type CreateClass(IEnumerable<DynamicProperty> properties)
+        {
+            return ClassFactory.Instance.GetDynamicClass(properties);
         }
     }
 }

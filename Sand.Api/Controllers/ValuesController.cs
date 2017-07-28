@@ -15,36 +15,30 @@ namespace Sand.Api.Controllers
     public class ValuesController : Controller
     {
         private readonly IBaseDataRepository _baseDataRepository;
-        private readonly IService _service;
         public IUserContext UserContext { get; set; }
-
-        private readonly IUserContext _userContext;
-
-        public ValuesController(IService service, IBaseDataRepository baseDataRepository)
+        public ValuesController(IBaseDataRepository baseDataRepository)
         {
             _baseDataRepository = baseDataRepository;
-            _service = service;
         }
         // GET api/values
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
-            var ff = _baseDataRepository.Retrieve();
-            var list = ff.ToList();
-            //foreach (var item in list)
-            //{
-            //    item.Id = Uuid.Next();
-            //}
-            var data = new BaseData();
-            list.First().MapTo(data);
-            data.Id = Uuid.Next();
-            data.LastUpdateTime = DateTime.UtcNow;
-            var mm = list.First();
-            await _baseDataRepository.CreateAsync(data);
-            mm.LastUpdateName = DateTime.Now.ToString();
-            await _baseDataRepository.UpdateAsync(list.First());
-            _baseDataRepository.Test();
-            _service.CallBack("111");
+            //var ff = _baseDataRepository.Retrieve();
+            //var list = ff.ToList();
+            ////foreach (var item in list)
+            ////{
+            ////    item.Id = Uuid.Next();
+            ////}
+            //var data = new BaseData();
+            //list.First().MapTo(data);
+            //data.Id = Uuid.Next();
+            //data.LastUpdateTime = DateTime.UtcNow;
+            //var mm = list.First();
+            //await _baseDataRepository.CreateAsync(data);
+            //mm.LastUpdateName = DateTime.Now.ToString();
+            //await _baseDataRepository.UpdateAsync(list.First());
+            //_baseDataRepository.Test();
             return await Task.FromResult(new string[] { "value1", "value2" });
         }
 
@@ -52,7 +46,7 @@ namespace Sand.Api.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return _baseDataRepository.Test();
         }
 
         // POST api/values

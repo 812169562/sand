@@ -22,7 +22,6 @@ using Sand.Domain.Entities;
 using Sand.Service;
 using Sand.Context;
 using Microsoft.AspNetCore.Mvc.Controllers;
-
 namespace Sand.Api
 {
     public class Startup

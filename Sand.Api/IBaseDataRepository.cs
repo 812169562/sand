@@ -8,6 +8,6 @@ namespace Sand.Api
 {
     public interface IBaseDataRepository : IRepository<BaseData, Guid>
     {
-        void Test(); 
+        string Test(); 
     }
 }

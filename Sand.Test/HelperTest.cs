@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Sand.Api;
 using Sand.Extension;
 using Xunit;
 
@@ -10,6 +11,12 @@ namespace Sand.Test
 {
     public class HelperTest
     {
+        private readonly IBaseDataRepository _baseDataRepository;
+        public HelperTest(IBaseDataRepository baseDataRepository)
+        {
+            _baseDataRepository = baseDataRepository;
+        }
+
         [Fact]
         public void IsEmpty()
         {

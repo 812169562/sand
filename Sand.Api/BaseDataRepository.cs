@@ -29,8 +29,9 @@ namespace Sand.Api
         {
         }
 
-        public void Test()
+        public string Test()
         {
+            return "autofac";
             //Uow ef = new Uow();
             //var ff=ef.Find<BaseData>(new Guid("6782c86c-bd3f-428e-aed8-e078954f8ec2"));
         }

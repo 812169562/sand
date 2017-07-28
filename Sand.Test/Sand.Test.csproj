@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sand.Api\Sand.Api.csproj" />
     <ProjectReference Include="..\Sand\Sand.csproj" />
   </ItemGroup>
 

@@ -28,7 +28,7 @@ namespace Sand.Filter
             }
             finally
             {
-                Uow.Complete();
+               //Uow.Complete();
             }
         }
     }
