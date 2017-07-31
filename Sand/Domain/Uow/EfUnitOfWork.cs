@@ -66,8 +66,16 @@ namespace Sand.Domain.Uow
 		/// <param name="optionsBuilder">Options builder</param>
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            ConnectionString = "server=.;database=Sand;uid=sa;pwd=sa;MultipleActiveResultSets=true";
-            optionsBuilder.UseSqlServer(ConnectionString);
+            try
+            {
+                ConnectionString = "server=192.168.2.128;database=system;uid=root;pwd=sand;";
+                optionsBuilder.UseMySql(ConnectionString);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
 
         /// <summary>

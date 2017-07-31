@@ -8,6 +8,7 @@ using Sand.Service;
 using Sand.Helpers;
 using Sand.Maps;
 using Sand.Context;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Sand.Api.Controllers
 {
@@ -24,7 +25,7 @@ namespace Sand.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
-            //var ff = _baseDataRepository.Retrieve();
+            var ff = _baseDataRepository.Retrieve();
             //var list = ff.ToList();
             ////foreach (var item in list)
             ////{
@@ -65,6 +66,14 @@ namespace Sand.Api.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+    }
+
+    public class ApiController: Controller
+    {
+        public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            return base.OnActionExecutionAsync(context, next);
         }
     }
 }
