@@ -68,7 +68,7 @@ namespace Sand.Domain.Uow
         {
             try
             {
-                ConnectionString = "server=192.168.2.128;database=system;uid=root;pwd=sand;";
+                ConnectionString = "server=.database=sand;uid=root;pwd=root;";
                 optionsBuilder.UseMySql(ConnectionString);
             }
             catch (Exception ex)

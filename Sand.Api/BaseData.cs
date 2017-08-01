@@ -8,7 +8,7 @@ using Sand.Dependency;
 
 namespace Sand.Api
 {
-    [Table("BaseData")]
+    [Table("Dics")]
     public class BaseData : Entity<Guid>,ISoftDelete
     {
         public bool IsDeleted { get; set; }
