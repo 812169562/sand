@@ -1,21 +1,19 @@
-﻿using AspectCore.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using AspectCore.Extensions.DependencyInjection;
+﻿using System;
 using System.Threading.Tasks;
 using Sand.Dependency;
 using Microsoft.Extensions.Logging;
 using NLog;
+using AspectCore.DynamicProxy;
+using AspectCore.Injector;
 
 namespace Sand.Filter
 {
     /// <summary>
     /// 日志aop
     /// </summary>
-    public class LogInterceptorAttribute : InterceptorAttribute
+    public class LogInterceptorAttribute : AbstractInterceptorAttribute
     {
-        [Inject]
+        [FromContainer]
         public ILog Log { get; set; }
         public async override Task Invoke(AspectContext context, AspectDelegate next)
         {
@@ -23,12 +21,12 @@ namespace Sand.Filter
             TimeSpan beforeTs = new TimeSpan(beforeTime.Ticks);
             try
             {
-                Log.Logger.LogDebug("before：" + beforeTime + "*" + context.Target.ImplementationType.Name + "*" + context.Target.ImplementationMethod.Name);
+                Log.Logger.LogDebug("before：" + beforeTime + "*" + context.ImplementationMethod.Name + "*" + context.ImplementationMethod.Name);
                 await next(context);
             }
             catch (Exception ex)
             {
-                Log.Logger.LogError("error：" + beforeTime + "*" + context.Target.ImplementationType.Name + "*" + context.Target.ImplementationMethod.Name);
+                Log.Logger.LogError("error：" + beforeTime + "*" + context.ImplementationMethod.Name + "*" + context.ImplementationMethod.Name);
                 throw;
             }
             finally
@@ -36,7 +34,7 @@ namespace Sand.Filter
                 var afterTime = DateTime.UtcNow;
                 TimeSpan afterTs = new TimeSpan(afterTime.Ticks);
                 Log.Logger.LogDebug("用时：" + (afterTs - beforeTs).Milliseconds + "毫秒");
-                Log.Logger.LogDebug("after：" + afterTime + "*" + context.Target.ImplementationType.Name + "*" + context.Target.ImplementationMethod.Name);
+                Log.Logger.LogDebug("after：" + afterTime + "*" + context.ImplementationMethod.Name + "*" + context.ImplementationMethod.Name);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using AspectCore.Abstractions;
+﻿using AspectCore.DynamicProxy;
 using Sand.Domain.Uow;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sand.Filter
 {
-    public class UnitOfWorkAttribute : InterceptorAttribute
+    public class UnitOfWorkAttribute : AbstractInterceptorAttribute
     {
         public IUnitOfWork Uow { get; set; }
 
