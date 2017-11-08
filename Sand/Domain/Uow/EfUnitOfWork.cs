@@ -68,14 +68,13 @@ namespace Sand.Domain.Uow
         {
             try
             {
-                ConnectionString = "server=.database=sand;uid=root;pwd=root;";
+                ConnectionString = "server=localhost;database=sand;user=root;password=root;";
                 optionsBuilder.UseMySql(ConnectionString);
             }
             catch (Exception ex)
             {
                 throw;
             }
-           
         }
 
         /// <summary>

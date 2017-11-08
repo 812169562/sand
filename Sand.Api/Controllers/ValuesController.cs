@@ -26,20 +26,20 @@ namespace Sand.Api.Controllers
         public async Task<IEnumerable<string>> Get()
         {
             var ff = _baseDataRepository.Retrieve();
-            //var list = ff.ToList();
-            ////foreach (var item in list)
-            ////{
-            ////    item.Id = Uuid.Next();
-            ////}
-            //var data = new BaseData();
-            //list.First().MapTo(data);
-            //data.Id = Uuid.Next();
-            //data.LastUpdateTime = DateTime.UtcNow;
-            //var mm = list.First();
-            //await _baseDataRepository.CreateAsync(data);
-            //mm.LastUpdateName = DateTime.Now.ToString();
-            //await _baseDataRepository.UpdateAsync(list.First());
-            //_baseDataRepository.Test();
+            var list = ff.ToList();
+            //foreach (var item in list)
+            //{
+            //    item.Id = Uuid.Next();
+            //}
+            var data = new BaseData();
+            list.First().MapTo(data);
+            data.Id = Uuid.Next();
+            data.LastUpdateTime = DateTime.UtcNow;
+            var mm = list.First();
+            await _baseDataRepository.CreateAsync(data);
+            mm.LastUpdateName = DateTime.Now.ToString();
+            await _baseDataRepository.UpdateAsync(list.First());
+            _baseDataRepository.Test();
             return await Task.FromResult(new string[] { "value1", "value2" });
         }
 

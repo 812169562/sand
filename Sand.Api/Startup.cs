@@ -22,6 +22,8 @@ using Sand.Domain.Entities;
 using Sand.Service;
 using Sand.Context;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Exceptionless;
+
 namespace Sand.Api
 {
     public class Startup
@@ -33,12 +35,6 @@ namespace Sand.Api
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterModule<DefaultIocConfig>();
             containerBuilder.RegisterType<EfUnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
-            //builder.Register(c => new A { B = c.Resolve<B>() });
-            //containerBuilder.RegisterType<IUserContext>().WithProperty("UserContext", new TestUserContext());
-            //containerBuilder.RegisterType<TestUserContext>().As<IUserContext>().InstancePerLifetimeScope();
-            //containerBuilder.Register(c => new TestUserContext(c.Resolve<IUserContext>()))
-            //.As<IUserContext>().PropertiesAutowired()
-            //.InstancePerLifetimeScope();
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             return container.Resolve<IServiceProvider>();
@@ -47,6 +43,8 @@ namespace Sand.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            ExceptionlessClient.Default.Configuration.ServerUrl = "http://localhost:50000";
+            app.UseExceptionless("8r5ZlNo0H9cAjFkvNvQHirqHG8eAQrDhatRFVoTK");
             app.UseDeveloperExceptionPage();
             loggerFactory.AddNLog();
             env.ConfigureNLog("nlog.config");
