@@ -27,7 +27,7 @@ namespace Sand.Data
         /// </summary>
         protected virtual void MapVersion(EntityTypeBuilder<TEntity> builder)
         {
-            builder.Property(t => t.Version).IsRowVersion();
+            //builder.Property(t => t.Version).IsRowVersion();
         }
 
         /// <summary>

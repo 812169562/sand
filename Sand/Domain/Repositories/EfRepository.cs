@@ -34,6 +34,7 @@ namespace Sand.Domain.Repositories
         public override TEntity Create(TEntity entity)
         {
             Table.Add(entity);
+            Uow.SaveChanges();
             return entity;
         }
         public override IList<TEntity> CreateList(IList<TEntity> entities)

@@ -12,10 +12,10 @@ namespace Sand.Test
     public class HelperTest
     {
         private readonly IBaseDataRepository _baseDataRepository;
-        public HelperTest(IBaseDataRepository baseDataRepository)
-        {
-            _baseDataRepository = baseDataRepository;
-        }
+        //public HelperTest(IBaseDataRepository baseDataRepository)
+        //{
+        //    _baseDataRepository = baseDataRepository;
+        //}
 
         [Fact]
         public void IsEmpty()
@@ -65,7 +65,7 @@ namespace Sand.Test
             Guid end;
             for (int i = 0; i < 10000; i++)
             {
-                Thread.Sleep(1);
+                //Thread.Sleep(1);
                 var guid = Helpers.Uuid.Next();
                 if (i == 0)
                 {

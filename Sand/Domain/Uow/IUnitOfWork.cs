@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Sand.Domain.Uow
 {

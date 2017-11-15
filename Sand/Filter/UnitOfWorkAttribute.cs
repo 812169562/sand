@@ -1,4 +1,5 @@
 ﻿using AspectCore.DynamicProxy;
+using AspectCore.Injector;
 using Sand.Domain.Uow;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,8 @@ namespace Sand.Filter
 {
     public class UnitOfWorkAttribute : AbstractInterceptorAttribute
     {
+        [FromContainer]
         public IUnitOfWork Uow { get; set; }
-
-        //public ILog Log { get; set; }
 
         public async override Task Invoke(AspectContext context, AspectDelegate next)
         {

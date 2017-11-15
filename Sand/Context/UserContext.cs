@@ -10,7 +10,7 @@ namespace Sand.Context
     /// <summary>
     /// 用户信息
     /// </summary>
-    public interface IUserContext: IDependencyProperty
+    public interface IUserContext : IDependency
     {
         /// <summary>
         /// 登录编号
@@ -49,7 +49,8 @@ namespace Sand.Context
         /// </summary>
         public string TenantId { get; set; }
 
-        public TestUserContext() {
+        public TestUserContext()
+        {
             LoginKey = "1";
             LoginCode = "2";
             LoginName = "3";

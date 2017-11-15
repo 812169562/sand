@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using Sand.Context;
+
 namespace Sand.Domain.Entities
 {
     /// <summary>
@@ -71,6 +73,17 @@ namespace Sand.Domain.Entities
         /// </summary>
         /// <param name="entity"></param>
         void Load(IEntity entity);
+        /// <summary>
+        /// 设置创建人
+        /// </summary>
+        /// <param name="userContext"></param>
+        void SetCreateUser(IUserContext userContext);
+        /// <summary>
+        /// 设置更新人
+        /// </summary>
+        /// <param name="userContext"></param>
+        void SetUpdateUser(IUserContext userContext);
+
         #endregion
     }
 
@@ -86,6 +99,30 @@ namespace Sand.Domain.Entities
         public abstract void Init();
 
         public abstract void Load(IEntity entity);
+
+        /// <summary>
+        /// 设置创建人
+        /// </summary>
+        /// <param name="userContext">用户上下文</param>
+        public void SetCreateUser(IUserContext userContext)
+        {
+            this.CreateId = userContext.LoginKey;
+            this.CreateName = userContext.LoginName;
+            this.CreateTime = DateTime.UtcNow;
+            this.SetUpdateUser(userContext);
+        }
+        /// <summary>
+        /// 设置更新人
+        /// </summary>
+        /// <param name="userContext">用户上下文</param>
+        public void SetUpdateUser(IUserContext userContext)
+        {
+            this.LastUpdateId = userContext.LoginKey;
+            this.LastUpdateName = userContext.LoginName;
+            this.LastUpdateTime = DateTime.UtcNow;
+            this.SetUpdateUser(userContext);
+        }
+
         /// <summary>
         /// 主键
         /// </summary>
@@ -137,7 +174,7 @@ namespace Sand.Domain.Entities
         /// <summary>
         /// 版本号
         /// </summary>
-        [Timestamp]
+        [Required]
         public byte[] Version { get; set; }
 
         /// <summary>
@@ -191,7 +228,7 @@ namespace Sand.Domain.Entities
         /// </summary>
         public virtual void Validation()
         {
-            
+
         }
     }
 }

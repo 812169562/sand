@@ -27,7 +27,7 @@ namespace Sand.Domain.Uow
         public string TraceId { get; }
         public IUnitOfWork Begin(UnitOfWorkOptions options = null)
         {
-            throw new NotImplementedException();
+            return new EfUnitOfWork();
         }
 
         public void Complete()
