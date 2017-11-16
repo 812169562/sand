@@ -121,12 +121,10 @@ namespace Sand.Service
 
         public virtual async Task<TDto> CreateAsync(TDto dto)
         {
-            using (Uow.Begin())
-            {
-                var result = await Repository.CreateAsync(ToEntity(dto));
-                Uow.Complete();
-                return ToDto(result);
-            }
+
+            var result = await Repository.CreateAsync(ToEntity(dto));
+            Uow.Complete();
+            return ToDto(result);
         }
 
         /// <summary>
@@ -137,30 +135,26 @@ namespace Sand.Service
 
         public virtual TDto CreateOrUpdate(TDto dto)
         {
-            using (Uow.Begin())
-            {
-                TEntity result = null;
-                if (dto.Id.IsEmpty())
-                    result = Repository.Create(ToEntity(dto));
-                else
-                    result = Repository.Update(ToEntity(dto));
-                Uow.Complete();
-                return ToDto(result);
-            }
+
+            TEntity result = null;
+            if (dto.Id.IsEmpty())
+                result = Repository.Create(ToEntity(dto));
+            else
+                result = Repository.Update(ToEntity(dto));
+            Uow.Complete();
+            return ToDto(result);
         }
 
         public virtual async Task<TDto> CreateOrUpdateAsync(TDto dto)
         {
-            using (Uow.Begin())
-            {
-                TEntity result = null;
-                if (dto.Id.IsEmpty())
-                    result = await Repository.CreateAsync(ToEntity(dto));
-                else
-                    result = await Repository.UpdateAsync(ToEntity(dto));
-                await Uow.CompleteAsync();
-                return ToDto(result);
-            }
+
+            TEntity result = null;
+            if (dto.Id.IsEmpty())
+                result = await Repository.CreateAsync(ToEntity(dto));
+            else
+                result = await Repository.UpdateAsync(ToEntity(dto));
+            await Uow.CompleteAsync();
+            return ToDto(result);
         }
 
         public virtual IList<TDto> CreateList(IList<TDto> dtos)
@@ -320,17 +314,14 @@ namespace Sand.Service
 
         public virtual async Task DeleteAsync(IList<TDto> dtos)
         {
-            using (Uow.Begin())
+            var beforeEntities = dtos.Select(ToEntity).ToList();
+            var entities = await Repository.RetrieveByIdsAsync(beforeEntities.Select(t => t.Id).ToList());
+            CheckVersion(dtos.Select(t => t.Version), entities.Select(t => t.Version));
+            foreach (var each in entities)
             {
-                var beforeEntities = dtos.Select(ToEntity).ToList();
-                var entities = await Repository.RetrieveByIdsAsync(beforeEntities.Select(t => t.Id).ToList());
-                CheckVersion(dtos.Select(t => t.Version), entities.Select(t => t.Version));
-                foreach (var each in entities)
-                {
-                    await Repository.DeleteAsync(each);
-                }
-                await Uow.CompleteAsync();
+                await Repository.DeleteAsync(each);
             }
+            await Uow.CompleteAsync();
         }
         /// <summary>
         /// 验证数据过期

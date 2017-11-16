@@ -1,34 +1,61 @@
 ﻿using AspectCore.DynamicProxy;
 using AspectCore.Injector;
 using Sand.Domain.Uow;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Extensions.DependencyInjection;
 namespace Sand.Filter
 {
-    public class UnitOfWorkAttribute : AbstractInterceptorAttribute
+    public class UowAttribute : AbstractInterceptorAttribute
     {
-        [FromContainer]
-        public IUnitOfWork Uow { get; set; }
+        //[FromContainer]
+        private IUnitOfWork _uow;
 
+        [FromContainer]
+        public ILog Log { get; set; }
+
+        public UowAttribute()
+        {
+        }
         public async override Task Invoke(AspectContext context, AspectDelegate next)
         {
             try
             {
-                Uow.Begin();
+                _uow = context.ServiceProvider.GetService<IUnitOfWork>();
                 await next(context);
-                await Uow.CompleteAsync();
+                _uow.Complete();
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                await Uow.RollBackAsync();
-                //Log.Error(ex);
+                _uow.RollBack();
+                Log.Error(ex.Message);
             }
             finally
             {
-               //Uow.Complete();
+            }
+        }
+    }
+
+    public class UowAsyncAttribute : AbstractInterceptorAttribute
+    {
+        public IUnitOfWork _uow { get; set; }
+        [FromContainer]
+        public ILog Log { get; set; }
+        public async override Task Invoke(AspectContext context, AspectDelegate next)
+        {
+            try
+            {
+                _uow = context.ServiceProvider.GetService<IUnitOfWork>();
+                await next(context);
+                await _uow.CompleteAsync();
+            }
+            catch (System.Exception ex)
+            {
+                await _uow.RollBackAsync();
+                Log.Error(ex.Message);
+            }
+            finally
+            {
+                //Uow.Complete();
             }
         }
     }

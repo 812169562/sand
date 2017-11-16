@@ -13,23 +13,26 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyModel;
 using System.Linq;
 using System.Runtime.Loader;
+using Sand.Extensions;
+using Microsoft.Extensions.Logging;
+using Sand.Filter;
 
 namespace Sand.Domain.Uow
 {
     public class EfUnitOfWork : DbContext, IUnitOfWork
     {
+        private readonly ILog _log;
+        public EfUnitOfWork(ILog log)
+        {
+            _log = log;
+        }
         public string ConnectionString { get; set; }
         //public EfUnitOfWork(string connectionString)
         //{
         //    // ConnectionString = connectionString;
         //    base.OnConfiguring(DbContextOptionsBuilder)
         //}
-        public string TraceId { get; }
-        public IUnitOfWork Begin(UnitOfWorkOptions options = null)
-        {
-            return new EfUnitOfWork();
-        }
-
+        public string TraceId { get { return DateTimeExtensions.GetUnixTimestamp().ToString(); } }
         public void Complete()
         {
             this.SaveChanges();
@@ -60,16 +63,18 @@ namespace Sand.Domain.Uow
         }
 
         /// <summary>
-		/// Configure context options<br/>
-		/// 配置上下文选项<br/>
-		/// </summary>
-		/// <param name="optionsBuilder">Options builder</param>
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /// Configure context options<br/>
+        /// 配置上下文选项<br/>
+        /// </summary>
+        /// <param name="optionsBuilder">Options builder</param>
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             try
             {
                 ConnectionString = "server=localhost;database=sand;user=root;password=root;";
                 optionsBuilder.UseMySql(ConnectionString);
+                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.UseLoggerFactory(new LoggerFactory(new[] { new EfLoggerProvider(_log,this) }));
             }
             catch (Exception ex)
             {

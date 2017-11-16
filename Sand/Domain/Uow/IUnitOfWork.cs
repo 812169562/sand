@@ -3,6 +3,8 @@ using System;
 using System.Threading.Tasks;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using AspectCore.DynamicProxy.Parameters;
 
 namespace Sand.Domain.Uow
 {
@@ -20,7 +22,7 @@ namespace Sand.Domain.Uow
         /// </summary>
         /// <param name="options">事务属性</param>
         /// <returns></returns>
-        IUnitOfWork Begin(UnitOfWorkOptions options = null);
+        //IUnitOfWork Begin(UnitOfWorkOptions options = null);
         /// <summary>
         /// 提交事务
         /// </summary>
@@ -41,6 +43,8 @@ namespace Sand.Domain.Uow
         /// 连接
         /// </summary>
         IDbConnection DbConnection { get; }
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        EntityEntry Entry([NotNullAttribute] object entity);
     }
 
     /// <summary>

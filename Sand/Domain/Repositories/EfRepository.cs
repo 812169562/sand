@@ -9,6 +9,7 @@ using Sand.Dependency;
 using Sand.Domain.Entities;
 using Sand.Domain.Uow;
 using Sand.Filter;
+using AspectCore.Injector;
 
 namespace Sand.Domain.Repositories
 {
@@ -16,11 +17,11 @@ namespace Sand.Domain.Repositories
     {
         public virtual DbSet<TEntity> Table { get { return Uow.Set<TEntity>(); } }
 
-        protected new EfUnitOfWork Uow { get; set; }
+        protected new IUnitOfWork Uow { get; set; }
 
         public EfRepository(IUnitOfWork uow) : base(uow)
         {
-            Uow = (EfUnitOfWork)base.Uow;
+            Uow = base.Uow;
         }
 
         protected virtual void AttachIfNot(TEntity entity)
@@ -30,11 +31,10 @@ namespace Sand.Domain.Repositories
                 Table.Attach(entity);
             }
         }
-
+        [Uow]
         public override TEntity Create(TEntity entity)
         {
             Table.Add(entity);
-            Uow.SaveChanges();
             return entity;
         }
         public override IList<TEntity> CreateList(IList<TEntity> entities)
@@ -76,7 +76,7 @@ namespace Sand.Domain.Repositories
             //entity.Validate();
             AttachIfNot(entity);
             Uow.Entry(entity).State = EntityState.Modified;
-            Uow.SaveChanges();
+            //Uow.Complete();
             return entity;
         }
 
@@ -127,7 +127,7 @@ namespace Sand.Domain.Repositories
             if (entity is ISoftDelete)
             {
                 ((ISoftDelete)entity).IsDeleted = true;
-                Uow.Entry(entity).State = EntityState.Modified;
+                //Uow.Entry(entity).State = EntityState.Modified;
             }
             else
                 Table.Remove(entity);

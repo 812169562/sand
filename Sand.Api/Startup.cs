@@ -32,11 +32,12 @@ namespace Sand.Api
             services.AddMvc().AddControllersAsServices();
             services.AddOptions();
             var containerBuilder = new ContainerBuilder();
+           
             containerBuilder.RegisterModule<DefaultIocConfig>();
             containerBuilder.Populate(services);
-            var serviceContaniner = new ServiceContainer();
-            var configuration = serviceContaniner.Configuration;
-            containerBuilder.RegisterDynamicProxy(configuration, config =>
+            //var serviceContaniner = new ServiceContainer();
+            //var configuration = serviceContaniner.Configuration;
+            containerBuilder.RegisterDynamicProxy(config =>
             {
                 config.EnableParameterAspect();
             });
