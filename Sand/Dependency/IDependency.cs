@@ -10,9 +10,17 @@ namespace Sand.Dependency
     public interface IDependency
     {
     }
-
+    /// <summary>
+    /// 属性注入
+    /// </summary>
     public interface IDependencyProperty
     {
     }
 
+    /// <summary>
+    /// 单例依赖注入约定接口
+    /// </summary>
+    public interface IDependencySingleton
+    {
+    }
 }

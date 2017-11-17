@@ -12,6 +12,7 @@ namespace Sand.Api
     {
         public BaseDataRepository(IUnitOfWork uow) : base(uow)
         {
+            
         }
 
         public string Test()

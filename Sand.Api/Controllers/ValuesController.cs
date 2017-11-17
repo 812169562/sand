@@ -15,7 +15,7 @@ using AspectCore.Injector;
 namespace Sand.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController : ApiController
     {
         private readonly IBaseDataRepository _baseDataRepository;
         [FromContainer]
@@ -28,39 +28,32 @@ namespace Sand.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
-            var basedata = new BaseData()
+            try
             {
-                Code = "1",
-                TenantId = Guid.NewGuid(),
-                CreateTime = DateTime.Now,
-                CreateId = Guid.NewGuid().ToString(),
-                CreateName = "1",
-                LastUpdateTime = DateTime.Now,
-                LastUpdateId = "1",
-                LastUpdateName = "1",
-                IsEnable = true,
-                Name = "1",
-                PinYin = "1",
-                FullPinYin = "1",
-                Version = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())
-            };
-            _baseDataRepository.Test();
-            _baseDataRepository.Create(basedata);
-            var ff = _baseDataRepository.Retrieve();
-            var list = ff.ToList();
-            //foreach (var item in list)
-            //{
-            //    item.Id = Uuid.Next();
-            //}
-            var data = new BaseData();
-            list.First().MapTo(data);
-            data.Id = Uuid.Next();
-            data.LastUpdateTime = DateTime.UtcNow;
-            var mm = list.First();
-            await _baseDataRepository.CreateAsync(data);
-            mm.LastUpdateName = DateTime.Now.ToString();
-            await _baseDataRepository.UpdateAsync(list.First());
-            return await Task.FromResult(new string[] { "value1", "value2" });
+                var basedata = new BaseData()
+                {
+                    Code = "1",
+                    TenantId = Guid.NewGuid(),
+                    CreateTime = DateTime.Now,
+                    CreateId = Guid.NewGuid().ToString(),
+                    CreateName = "1",
+                    LastUpdateTime = DateTime.Now,
+                    LastUpdateId = "1",
+                    LastUpdateName = "1",
+                    IsEnable = true,
+                    Name = "1",
+                    PinYin = "1",
+                    FullPinYin = "1",
+                    Version = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())
+                };
+                _baseDataRepository.Test();
+                _baseDataRepository.Create(basedata);
+                return await Task.FromResult(new string[] { "value1", "value2" });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         // GET api/values/5

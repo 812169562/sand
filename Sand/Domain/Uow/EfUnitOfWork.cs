@@ -22,16 +22,17 @@ namespace Sand.Domain.Uow
     public class EfUnitOfWork : DbContext, IUnitOfWork
     {
         private readonly ILog _log;
-        public EfUnitOfWork(ILog log)
+        private readonly ISqlConfig _sqlConfig;
+        public EfUnitOfWork(ILog log, ISqlConfig sqlConfig)
         {
             _log = log;
+            _sqlConfig = sqlConfig;
         }
         public string ConnectionString { get; set; }
-        //public EfUnitOfWork(string connectionString)
-        //{
-        //    // ConnectionString = connectionString;
-        //    base.OnConfiguring(DbContextOptionsBuilder)
-        //}
+        public EfUnitOfWork(string connectionString)
+        {
+            //ConnectionString = connectionString;
+        }
         public string TraceId { get { return DateTimeExtensions.GetUnixTimestamp().ToString(); } }
         public void Complete()
         {
@@ -53,7 +54,7 @@ namespace Sand.Domain.Uow
             await this.RollBackAsync();
         }
 
-        public IDbConnection DbConnection { get; }
+        public IDbConnection DbConnection { get { return this.Database.GetDbConnection(); } }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,10 +72,10 @@ namespace Sand.Domain.Uow
         {
             try
             {
-                ConnectionString = "server=localhost;database=sand;user=root;password=root;";
+                ConnectionString = _sqlConfig.SqlConnectionString;
                 optionsBuilder.UseMySql(ConnectionString);
                 optionsBuilder.EnableSensitiveDataLogging();
-                optionsBuilder.UseLoggerFactory(new LoggerFactory(new[] { new EfLoggerProvider(_log,this) }));
+                optionsBuilder.UseLoggerFactory(new LoggerFactory(new[] { new EfLoggerProvider(_log, this) }));
             }
             catch (Exception ex)
             {

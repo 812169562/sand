@@ -10,6 +10,7 @@ using Sand.Domain.Entities;
 using Sand.Domain.Uow;
 using Sand.Filter;
 using AspectCore.Injector;
+using Dapper;
 
 namespace Sand.Domain.Repositories
 {
@@ -35,6 +36,7 @@ namespace Sand.Domain.Repositories
         public override TEntity Create(TEntity entity)
         {
             Table.Add(entity);
+            var ff = Uow.DbConnection.Query("select *  from dics");
             return entity;
         }
         public override IList<TEntity> CreateList(IList<TEntity> entities)
