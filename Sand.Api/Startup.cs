@@ -23,6 +23,8 @@ using Sand.Domain.Uow;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Exceptionless.Json;
+using Sand.Log.Extensions;
+using Sand.Context;
 
 namespace Sand.Api
 {
@@ -41,16 +43,17 @@ namespace Sand.Api
         {
             services.AddMvc().AddControllersAsServices();
             services.AddOptions();
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule<DefaultIocConfig>();
-            containerBuilder.RegisterType<MySqlConfig>().As<ISqlConfig>().AsImplementedInterfaces().SingleInstance();
-            containerBuilder.Populate(services);
-            containerBuilder.RegisterDynamicProxy(config =>
+            DefaultIocConfig.ContainerBuilder.RegisterType<WebContext>().As<IContext>().AsImplementedInterfaces().SingleInstance();
+            DefaultIocConfig.ContainerBuilder.AddNLog();
+            DefaultIocConfig.ContainerBuilder.RegisterModule<DefaultIocConfig>();
+            DefaultIocConfig.ContainerBuilder.RegisterType<MySqlConfig>().As<ISqlConfig>().AsImplementedInterfaces().SingleInstance();
+            DefaultIocConfig.ContainerBuilder.Populate(services);
+            DefaultIocConfig.ContainerBuilder.RegisterDynamicProxy(config =>
             {
                 config.EnableParameterAspect();
             });
-            var container = containerBuilder.Build();
-            return container.Resolve<IServiceProvider>();
+            DefaultIocConfig.Container = DefaultIocConfig.ContainerBuilder.Build();
+            return DefaultIocConfig.Container.Resolve<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,29 +67,8 @@ namespace Sand.Api
             app.UseErrorHandling();
             app.UseMvc();
         }
-    
-     
-    }
-    /// <summary>
-    /// autofac注入模块（扫描程序集）
-    /// </summary>
-    public class DefaultIocConfig : IocConfig
-    {
-        protected override void Load(ContainerBuilder builder)
-        {
-            var assemblies = new List<Assembly>();
-            var dependencyContext = DependencyContext.Default;
-            var libs = dependencyContext.CompileLibraries.Where(lib => !lib.Serviceable && lib.Type != "package");
-            foreach (var lib in libs)
-            {
-                var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(lib.Name));
-                assemblies.Add(assembly);
-            }
-            var typeBase = typeof(IDependency);
-            builder.RegisterAssemblyTypes(assemblies.ToArray())
-                .Where(t => typeBase.IsAssignableFrom(t) && t != typeBase && !t.GetTypeInfo().IsAbstract)
-                .AsImplementedInterfaces().InstancePerLifetimeScope();
-        }
+
+
     }
     public class ErrorHandlingMiddleware
     {

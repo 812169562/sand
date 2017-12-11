@@ -46,7 +46,7 @@ namespace Sand.Api.Controllers
                     FullPinYin = "1",
                     Version = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())
                 };
-                _baseDataRepository.Test();
+                //_baseDataRepository.Test();
                 _baseDataRepository.Create(basedata);
                 return await Task.FromResult(new string[] { "value1", "value2" });
             }

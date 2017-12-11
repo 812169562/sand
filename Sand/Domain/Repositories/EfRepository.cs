@@ -36,7 +36,6 @@ namespace Sand.Domain.Repositories
         public override TEntity Create(TEntity entity)
         {
             Table.Add(entity);
-            var ff = Uow.DbConnection.Query("select *  from dics");
             return entity;
         }
         public override IList<TEntity> CreateList(IList<TEntity> entities)

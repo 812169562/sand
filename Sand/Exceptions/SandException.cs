@@ -42,7 +42,7 @@ namespace Sand.Exceptions
         {
             Code = "W";
         }
-        public Warning(string message, string code = "W") : base(message)
+        public Warning(string message, string code = "W",Exception ex=null) : base(message)
         {
             if (!code.Contains("W"))code = "W" + code;
             Code = code;

@@ -10,11 +10,11 @@ namespace Sand.Filter
         //[FromContainer]
         private IUnitOfWork _uow;
 
-        [FromContainer]
-        public ILog Log { get; set; }
-
+        //[FromContainer]
+        private ILog _log;
         public UowAttribute()
         {
+            
         }
         public async override Task Invoke(AspectContext context, AspectDelegate next)
         {
@@ -27,7 +27,8 @@ namespace Sand.Filter
             catch (System.Exception ex)
             {
                 _uow.RollBack();
-                Log.Error(ex.Message);
+                _log = Log.Log.GetLog("Uow");
+                _log.Error(ex.Message);
             }
             finally
             {
@@ -37,9 +38,14 @@ namespace Sand.Filter
 
     public class UowAsyncAttribute : AbstractInterceptorAttribute
     {
-        public IUnitOfWork _uow { get; set; }
-        [FromContainer]
-        public ILog Log { get; set; }
+        private IUnitOfWork _uow;
+
+        private ILog _log;
+
+        public UowAsyncAttribute()
+        {
+
+        }
         public async override Task Invoke(AspectContext context, AspectDelegate next)
         {
             try
@@ -51,7 +57,8 @@ namespace Sand.Filter
             catch (System.Exception ex)
             {
                 await _uow.RollBackAsync();
-                Log.Error(ex.Message);
+                _log = Log.Log.GetLog("UowAsync");
+                _log.Error(ex.Message);
             }
             finally
             {

@@ -141,7 +141,6 @@ namespace Sand.Service
                 result = Repository.Create(ToEntity(dto));
             else
                 result = Repository.Update(ToEntity(dto));
-            Uow.Complete();
             return ToDto(result);
         }
 
@@ -153,7 +152,6 @@ namespace Sand.Service
                 result = await Repository.CreateAsync(ToEntity(dto));
             else
                 result = await Repository.UpdateAsync(ToEntity(dto));
-            await Uow.CompleteAsync();
             return ToDto(result);
         }
 

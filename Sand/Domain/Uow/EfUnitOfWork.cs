@@ -23,9 +23,9 @@ namespace Sand.Domain.Uow
     {
         private readonly ILog _log;
         private readonly ISqlConfig _sqlConfig;
-        public EfUnitOfWork(ILog log, ISqlConfig sqlConfig)
+        public EfUnitOfWork(ISqlConfig sqlConfig)
         {
-            _log = log;
+            _log = Log.Log.GetLog("EfTraceLog");
             _sqlConfig = sqlConfig;
         }
         public string ConnectionString { get; set; }

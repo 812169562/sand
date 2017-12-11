@@ -30,33 +30,39 @@ namespace Sand.Service
         /// 创建对象
         /// </summary>
         /// <param name="dto">数据传输对象</param>
+        [Uow]
         TDto Create(TDto dto);
         /// <summary>
         /// 创建实体
         /// </summary>
         /// <param name="dto">实体</param>
+        [UowAsync]
         Task<TDto> CreateAsync(TDto dto);
         /// <summary>
         /// 创建实体集
         /// </summary>
         /// <param name="dtos">实体集</param>
         /// <returns>创建后的实体集</returns>
+        [Uow]
         IList<TDto> CreateList(IList<TDto> dtos);
         /// <summary>
         /// 创建实体集
         /// </summary>
         /// <param name="dtos">实体集</param>
         /// <returns>创建后的实体集</returns>
+        [UowAsync]
         Task<IList<TDto>> CreateListAsync(IList<TDto> dtos);
         /// <summary>
         /// 创建实体返回编号
         /// </summary>
         /// <param name="dto">实体</param>
+        [Uow]
         TPrimaryKey CreateReturnId(TDto dto);
         /// <summary>
         /// 创建实体返回编号
         /// </summary>
         /// <param name="dto">实体</param>
+        [UowAsync]
         Task<TPrimaryKey> CreateReturnIdAsync(TDto dto);
         /// <summary>
         /// 查询集合
@@ -98,72 +104,86 @@ namespace Sand.Service
         /// 更新实体
         /// </summary>
         /// <param name="dto">数据传输对象</param>
+        [Uow]
         void Update(TDto dto);
         /// <summary>
         /// 更新实体
         /// </summary>
         /// <param name="dto">数据传输对象</param>
+        [Uow]
         TDto UpdateReturn(TDto dto);
         /// <summary>
         /// 更新实体
         /// </summary>
         /// <param name="dto">数据传输对象</param>
         /// <returns>更新实体</returns>
+        [Uow]
         Task UpdateAsync(TDto dto);
         /// <summary>
         /// 更新实体
         /// </summary>
         /// <param name="dto">数据传输对象</param>
+        [UowAsync]
         Task<TDto> UpdateReturnAsync(TDto dto);
         /// <summary>
         /// 更新实体集合
         /// </summary>
         /// <param name="dtos">数据传输对象集合</param>
+        [Uow]
         void UpdateList(IList<TDto> dtos);
         /// <summary>
         /// 更新实体集合
         /// </summary>
         /// <param name="dtos">数据传输对象集合</param>
+        [Uow]
         IList<TDto> UpdateListReturn(IList<TDto> dtos);
         /// <summary>
         /// 更新实体集合
         /// </summary>
         /// <param name="dtos">数据传输对象集合</param>
+        [UowAsync]
         Task UpdateListAsync(IList<TDto> dtos);
         /// <summary>
         /// 更新实体集合
         /// </summary>
         /// <param name="dtos">数据传输对象集合</param>
+        [UowAsync]
         Task<IList<TDto>> UpdateListReturnAsync(IList<TDto> dtos);
         /// <summary>
         /// 删除
         /// </summary>
         /// <param name="ids">编号集合</param>
+        [Uow]
         void Delete(IList<TPrimaryKey> ids);
         /// <summary>
         /// 删除
         /// </summary>
         /// <param name="ids">编号集合</param>
+        [UowAsync]
         Task DeleteAsync(IList<TPrimaryKey> ids);
         /// <summary>
         /// 删除集合
         /// </summary>
         /// <param name="dtos">编号集合</param>
+        [Uow]
         void Delete(IList<TDto> dtos);
         /// <summary>
         /// 删除集合
         /// </summary>
         /// <param name="dtos">编号集合</param>
+        [Uow]
         Task DeleteAsync(IList<TDto> dtos);
         /// <summary>
         /// 新增或者更新
         /// </summary>
         /// <param name="dto">实体</param>
+        [Uow]
         TDto CreateOrUpdate(TDto dto);
         /// <summary>
         /// 新增或者更新
         /// </summary>
         /// <param name="dto">实体</param>
+        [UowAsync]
         Task<TDto> CreateOrUpdateAsync(TDto dto);
 
     }
