@@ -42,6 +42,10 @@ namespace Sand.Api
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddControllersAsServices();
+            services.AddCors(options => options.AddPolicy("any", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            }));
             services.AddOptions();
             DefaultIocConfig.ContainerBuilder.RegisterType<WebContext>().As<IContext>().AsImplementedInterfaces().SingleInstance();
             DefaultIocConfig.ContainerBuilder.AddNLog();
@@ -67,8 +71,6 @@ namespace Sand.Api
             app.UseErrorHandling();
             app.UseMvc();
         }
-
-
     }
     public class ErrorHandlingMiddleware
     {

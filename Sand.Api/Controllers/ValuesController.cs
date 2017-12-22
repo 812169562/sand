@@ -11,6 +11,7 @@ using Sand.Context;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Text;
 using AspectCore.Injector;
+using Microsoft.AspNetCore.Cors;
 
 namespace Sand.Api.Controllers
 {
@@ -26,6 +27,7 @@ namespace Sand.Api.Controllers
         }
         // GET api/values
         [HttpGet]
+        [EnableCors("any")]
         public async Task<IEnumerable<string>> Get()
         {
             try
