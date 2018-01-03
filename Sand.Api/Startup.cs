@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using Exceptionless.Json;
 using Sand.Log.Extensions;
 using Sand.Context;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Sand.Api
 {
@@ -42,6 +43,12 @@ namespace Sand.Api
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddControllersAsServices();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",new Info { });
+            });
+
             services.AddCors(options => options.AddPolicy("any", builder =>
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
@@ -65,6 +72,7 @@ namespace Sand.Api
         {
             loggerFactory.AddNLog();
             env.ConfigureNLog("nlog.config");
+            app.UseSwaggerUI(c =>{ c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
             ExceptionlessClient.Default.Configuration.ServerUrl = "http://localhost:50000";
             app.UseExceptionless("8r5ZlNo0H9cAjFkvNvQHirqHG8eAQrDhatRFVoTK");
             app.UseDeveloperExceptionPage();
