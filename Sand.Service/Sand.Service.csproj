@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sand.Data\Sand.Data.csproj" />
+    <ProjectReference Include="..\Sand.Domain\Sand.Domain.csproj" />
+    <ProjectReference Include="..\Sand\Sand.csproj" />
+  </ItemGroup>
+
+</Project>
