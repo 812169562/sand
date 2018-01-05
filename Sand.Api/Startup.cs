@@ -26,6 +26,8 @@ using Exceptionless.Json;
 using Sand.Log.Extensions;
 using Sand.Context;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
 
 namespace Sand.Api
 {
@@ -46,7 +48,7 @@ namespace Sand.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1",new Info { });
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
             services.AddCors(options => options.AddPolicy("any", builder =>
@@ -71,8 +73,13 @@ namespace Sand.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddNLog();
+            app.UseSwagger();
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             env.ConfigureNLog("nlog.config");
-            app.UseSwaggerUI(c =>{ c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
             ExceptionlessClient.Default.Configuration.ServerUrl = "http://localhost:50000";
             app.UseExceptionless("8r5ZlNo0H9cAjFkvNvQHirqHG8eAQrDhatRFVoTK");
             app.UseDeveloperExceptionPage();

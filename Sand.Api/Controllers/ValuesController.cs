@@ -18,12 +18,11 @@ namespace Sand.Api.Controllers
     [Route("api/[controller]")]
     public class ValuesController : ApiController
     {
-        private readonly IBaseDataRepository _baseDataRepository;
-        [FromContainer]
-        public IUserContext UserContext { get; set; }
-        public ValuesController(IBaseDataRepository baseDataRepository)
+        //private readonly IBaseDataRepository _baseDataRepository;
+        //[FromContainer]
+        //public IUserContext UserContext { get; set; }
+        public ValuesController()
         {
-            _baseDataRepository = baseDataRepository;
         }
         // GET api/values
         [HttpGet]
@@ -32,22 +31,22 @@ namespace Sand.Api.Controllers
         {
             try
             {
-                var basedata = new BaseData()
-                {
-                    Code = "1",
-                    TenantId = Guid.NewGuid(),
-                    CreateTime = DateTime.Now,
-                    CreateId = Guid.NewGuid().ToString(),
-                    CreateName = "1",
-                    LastUpdateTime = DateTime.Now,
-                    LastUpdateId = "1",
-                    LastUpdateName = "1",
-                    IsEnable = true,
-                    Name = "1",
-                    PinYin = "1",
-                    FullPinYin = "1",
-                    Version = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())
-                };
+                //var basedata = new BaseData()
+                //{
+                //    Code = "1",
+                //    TenantId = Guid.NewGuid(),
+                //    CreateTime = DateTime.Now,
+                //    CreateId = Guid.NewGuid().ToString(),
+                //    CreateName = "1",
+                //    LastUpdateTime = DateTime.Now,
+                //    LastUpdateId = "1",
+                //    LastUpdateName = "1",
+                //    IsEnable = true,
+                //    Name = "1",
+                //    PinYin = "1",
+                //    FullPinYin = "1",
+                //    Version = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())
+                //};
                 //_baseDataRepository.Test();
                 //_baseDataRepository.Create(basedata);
                 return await Task.FromResult(new string[] { "value1", "value2" });
@@ -62,7 +61,7 @@ namespace Sand.Api.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return _baseDataRepository.Test();
+            return "1";
         }
 
         // POST api/values
