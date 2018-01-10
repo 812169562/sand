@@ -1,3 +1,27 @@
+<div nz-row>
+    <div nz-col [nzSpan]="5">
+        <button nz-button [nzType]="'default'" (click)="openAdd()">
+            <span>新增</span>
+        </button>
+        <button nz-button [nzType]="'dashed'" (click)="openAdd()">
+            <span>修改</span>
+        </button>
+        <button nz-button [nzType]="'danger'" (click)="openAdd()">
+            <span>停用</span>
+        </button>
+        <button nz-button [nzType]="'danger'" (click)="openAdd()">
+            <span>删除</span>
+        </button>
+    </div>
+    <div nz-col [nzSpan]="7">
+        <!-- <button nz-button [nzType]="'primary'">
+            <i class="anticon anticon-search"><span>查询</span></i>
+        </button> -->
+        <button nz-button [nzType]="'dashed'">
+                <i class="anticon anticon-search"></i><span>查询</span>
+              </button>
+    </div>
+</div>
 <div>
     <nz-table #nzTable [nzDataSource]="BindData" [nzPageSize]="[50]" [nzScroll]="{ y: 800 }" (nzDataChange)="_displayDataChange($event)">
         <ng-template #nzFixedHeader>
