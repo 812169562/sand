@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyModel;
-using Sand.Dependency;
 using Sand.DI;
 using AspectCore.Extensions.Autofac;
 using NLog.Extensions.Logging;
@@ -26,8 +20,6 @@ using Exceptionless.Json;
 using Sand.Log.Extensions;
 using Sand.Context;
 using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.Extensions.PlatformAbstractions;
-using System.IO;
 
 namespace Sand.Api
 {

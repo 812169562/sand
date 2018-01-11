@@ -335,16 +335,6 @@ namespace Sand.Service
             if (updateVersion.Any(top => dbVersion.Any(top.NotEqual)))
                 throw new Warning("已经不是最新数据,请重新刷新页面再操作！");
         }
-
-        Paged<TDto> IService<TDto, TQuery, TEntity, TPrimaryKey>.Page(TQuery query)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Paged<TDto>> IService<TDto, TQuery, TEntity, TPrimaryKey>.PageAsync(TQuery query)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 

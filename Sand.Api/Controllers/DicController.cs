@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspectCore.Injector;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sand.Context;
 using Sand.Domain.Queries.Systems;
-using Sand.Extension;
+using Sand.Result;
 using Sand.Service.Contact.Systems;
 using Sand.Service.Dtos.Systems;
 
@@ -41,9 +38,29 @@ namespace Sand.Api.Controllers
         /// </summary>
         /// <returns>字典信息</returns>
         [HttpGet]
-        public async Task<IList<DicDto>> Get(DicQuery query) {
-            var task = await _dicService.RetrieveAsync(query);
-            return task;
+        public async Task<IList<DicDto>> Get(DicQuery query)
+        {
+            return await _dicService.RetrieveAsync(query);
+        }
+
+        /// <summary>
+        /// 获取字典信息
+        /// </summary>
+        /// <returns>字典信息</returns>
+        [HttpGet("page", Name = "page")]
+        public async Task<Paged<DicDto>> Page(DicQuery query)
+        {
+            return await _dicService.PageAsync(query);
+        }
+        /// <summary>
+        /// 修改字典信息
+        /// </summary>
+        /// <param name="dto">字典信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task Post(DicDto dto)
+        {
+            await _dicService.UpdateAsync(dto);
         }
     }
 }
