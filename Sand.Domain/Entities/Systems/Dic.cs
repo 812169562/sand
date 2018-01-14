@@ -37,19 +37,19 @@ namespace Sand.Domain.Entities.Systems
         /// <summary>
         /// 等级
         /// </summary>
-        public int Level { get; set; }
+        public string Level { get; set; }
         /// <summary>
         /// 排序
         /// </summary>
-        public int Sort { get; set; }
+        public string Sort { get; set; }
         /// <summary>
         /// 类型
         /// </summary>
-        public int Type { get; set; }
+        public string Type { get; set; }
         /// <summary>
         /// 状态
         /// </summary>
-        public int Status { get; set; }
+        public string Status { get; set; }
         /// <summary>
         /// 是否删除
         /// </summary>

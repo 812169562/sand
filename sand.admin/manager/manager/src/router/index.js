@@ -1,20 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/index'
-import User from '@/components/users/user'
+import Index from '@/components/Index'
+import User from '@/components/users/User'
+import Tenant from '@/components/users/Tenant'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    { path: '/index',
+      name: 'Index',
+      component: Index
+    },
     {
-      path: '/',
-      name: 'user',
+      path: '/user',
+      name: 'User',
       component: User
     },
-    { path: '/',
-      name: 'index',
-      component: Index
+    {
+      path: '/tenant',
+      name: 'Tenant',
+      component: Tenant
     }
   ]
 })

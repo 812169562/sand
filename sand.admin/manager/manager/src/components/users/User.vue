@@ -1,7 +1,7 @@
 <<template>
 <div class="container">
   <mu-raised-button label="新增" class="demo-raised-button"/>
-  <mu-raised-button label="修改" class="demo-raised-button" primary/>
+  <mu-raised-button label="编辑" class="demo-raised-button" primary/>
   <mu-raised-button label="停用" class="demo-raised-button" secondary/>
   <mu-raised-button label="删除" class="demo-raised-button" backgroundColor="#333"/>
   <mu-table :fixedFooter="fixedFooter" :fixedHeader="fixedHeader" :height="height"
@@ -20,7 +20,9 @@
         <mu-td>{{index + 1}}</mu-td>
         <mu-td>{{item.name}}</mu-td>
         <mu-td>{{item.status}}</mu-td>
-        <mu-td><i class="el-icon-delete"></i></mu-td>
+        <mu-td><mu-icon value="update" color="#ff4081"/><i></i>
+        <mu-icon value="stop" color="#ff4081"/><i></i>
+        <mu-icon value="delete" color="#333"/><i></i></mu-td>
       </mu-tr>
     </mu-tbody>
     <mu-tfoot slot="footer">
@@ -38,7 +40,7 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       tableData: [
         {
@@ -79,9 +81,9 @@ export default {
       enableSelectAll: false,
       showCheckbox: true,
       height: "300px"
-    };
+    }
   }
-};
+}
 </script>
 
 <style lang="css">

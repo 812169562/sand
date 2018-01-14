@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
+using Sand.Dependency;
 using Sand.DI;
 using AspectCore.Extensions.Autofac;
 using NLog.Extensions.Logging;
@@ -19,7 +25,6 @@ using System.Threading.Tasks;
 using Exceptionless.Json;
 using Sand.Log.Extensions;
 using Sand.Context;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace Sand.Api
 {
@@ -37,12 +42,6 @@ namespace Sand.Api
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddControllersAsServices();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-            });
-
             services.AddCors(options => options.AddPolicy("any", builder =>
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
@@ -65,12 +64,6 @@ namespace Sand.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddNLog();
-            app.UseSwagger();
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
             env.ConfigureNLog("nlog.config");
             ExceptionlessClient.Default.Configuration.ServerUrl = "http://localhost:50000";
             app.UseExceptionless("8r5ZlNo0H9cAjFkvNvQHirqHG8eAQrDhatRFVoTK");
