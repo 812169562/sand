@@ -1,7 +1,7 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 
 @Component({
-    selector: 'app-root',
+    selector: 'admin-dic',
     templateUrl: './dic.component.html',
 })
 
