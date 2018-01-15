@@ -30,8 +30,7 @@ namespace Sand.Filter
             }
             catch (Exception ex)
             {
-                Log.Error("error：" + beforeTime + "*" + context.ImplementationMethod.Name + "*" + context.ImplementationMethod.Name);
-                throw;
+                Log.Error("error：" + beforeTime + "*" + context.ImplementationMethod.Name + "*" + context.ImplementationMethod.Name+"*"+ ex.Message);
             }
             finally
             {

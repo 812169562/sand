@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using Exceptionless.Json;
 using Sand.Log.Extensions;
 using Sand.Context;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Sand.Api
 {
@@ -46,6 +47,12 @@ namespace Sand.Api
             {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
             }));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
             services.AddOptions();
             DefaultIocConfig.ContainerBuilder.RegisterType<WebContext>().As<IContext>().AsImplementedInterfaces().SingleInstance();
             DefaultIocConfig.ContainerBuilder.AddNLog();
@@ -63,6 +70,7 @@ namespace Sand.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+
             loggerFactory.AddNLog();
             env.ConfigureNLog("nlog.config");
             ExceptionlessClient.Default.Configuration.ServerUrl = "http://localhost:50000";
@@ -70,6 +78,13 @@ namespace Sand.Api
             app.UseDeveloperExceptionPage();
             app.UseErrorHandling();
             app.UseMvc();
+            app.UseSwagger();
+
+            //Enable middleware to serve swagger - ui(HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
     public class ErrorHandlingMiddleware

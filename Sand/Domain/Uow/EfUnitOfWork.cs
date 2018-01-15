@@ -79,7 +79,7 @@ namespace Sand.Domain.Uow
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

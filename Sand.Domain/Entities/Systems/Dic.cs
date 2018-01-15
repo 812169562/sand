@@ -9,6 +9,10 @@ namespace Sand.Domain.Entities.Systems
     [Table("dics")]
     public class Dic : Entity<Guid>, ISoftDelete
     {
+
+        /// <summary>
+        /// 编号
+        /// </summary>
         public string Code { get; set; }
         /// <summary>
         /// 名称
