@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyModel;
-using Sand.Dependency;
 using Sand.DI;
 using AspectCore.Extensions.Autofac;
 using NLog.Extensions.Logging;
@@ -33,10 +27,6 @@ namespace Sand.Api
     {
         public Startup(IHostingEnvironment env)
         {
-            //var builder = new ConfigurationBuilder()
-            //.SetBasePath(env.ContentRootPath)
-            //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            //Configuration = builder.Build();
         }
         public IConfiguration Configuration { get; }
         // This method gets called by the runtime. Use this method to add services to the container.

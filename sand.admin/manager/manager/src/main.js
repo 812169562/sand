@@ -8,6 +8,9 @@ import 'muse-ui/dist/muse-ui.css'
 import 'muse-ui/dist/theme-light.css'
 import {Container, Header, Aside, Main, Footer} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import axios from 'axjos'
+import xx from './tools/http.js'
+
 
 Vue.config.productionTip = false
 Vue.use(MuseUI)
@@ -16,6 +19,10 @@ Vue.use(Header)
 Vue.use(Aside)
 Vue.use(Main)
 Vue.use(Footer)
+Vue.use(axios)
+Vue.use(xx)
+
+Vue.prototype.$http = axios
 
 /* eslint-disable no-new */
 new Vue({
