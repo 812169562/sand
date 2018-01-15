@@ -5,6 +5,8 @@
 *bin
 *obj
 *packages
+*lut
+/sand/.vs/Sand/lut
 /Sand/obj/Debug
 /packages
 /Sand.Web/bin/Debug
@@ -43,3 +45,4 @@
 /.vs/config
 /SandRelease
 /.vs/Sand/v14
+/.vs/Sand/v15
