@@ -46,12 +46,13 @@ namespace Sand.Domain.Uow
 
         public void RollBack()
         {
-            this.RollBack();
+            //this.RollBack();
         }
 
         public async Task RollBackAsync()
         {
-            await this.RollBackAsync();
+            await Task.FromResult(0);
+            // await this.RollBackAsync();
         }
 
         public IDbConnection DbConnection { get { return this.Database.GetDbConnection(); } }

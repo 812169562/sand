@@ -9,5 +9,6 @@ namespace Sand.Domain.Entities.Systems
 {
     public class TenantQuery : BaseQuery<Tenant, int>
     {
+        public string TelName { get; set; }
     }
 }

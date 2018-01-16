@@ -19,6 +19,7 @@ using Sand.Maps;
 using Sand.Extension;
 using Sand.Lambdas.Dynamics;
 using Microsoft.EntityFrameworkCore;
+using Sand.Filter;
 
 namespace Sand.Service
 {
@@ -121,9 +122,8 @@ namespace Sand.Service
 
         public virtual async Task<TDto> CreateAsync(TDto dto)
         {
-
-            var result = await Repository.CreateAsync(ToEntity(dto));
-            Uow.Complete();
+            var entity = ToEntity(dto);
+            var result = await Repository.CreateAsync(entity);
             return ToDto(result);
         }
 
