@@ -70,15 +70,6 @@ namespace Sand.Api.Controllers
             return await _tenantService.CreateAsync(tenant);
         }
         /// <summary>
-        /// 删除租户信息
-        /// </summary>
-        /// <returns></returns>
-        [HttpDelete]
-        public string Delete()
-        {
-            return "";
-        }
-        /// <summary>
         /// 新增租户信息
         /// </summary>
         /// <param name="tenant">租户信息</param>
