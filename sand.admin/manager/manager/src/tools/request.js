@@ -6,7 +6,6 @@ import {Message} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(Vuex)
-Vue.use(qs)
 Vue.use(Message)
 let Request = {}
 Request.get = function (url, data, success, error) {

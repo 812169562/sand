@@ -20,6 +20,8 @@ using Sand.Extension;
 using Sand.Lambdas.Dynamics;
 using Microsoft.EntityFrameworkCore;
 using Sand.Filter;
+using Sand.DI;
+using Autofac;
 
 namespace Sand.Service
 {
@@ -58,6 +60,7 @@ namespace Sand.Service
         {
             Uow = uow;
             Repository = repository;
+            UserContext = DefaultIocConfig.Container.Resolve<IUserContext>();
         }
 
         /// <summary>

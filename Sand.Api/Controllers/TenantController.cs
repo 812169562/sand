@@ -25,11 +25,6 @@ namespace Sand.Api.Controllers
         /// </summary>
         private readonly ITenantService _tenantService;
         /// <summary>
-        /// 用户上下文
-        /// </summary>
-        [FromContainer]
-        public IUserContext UserContext { get; set; }
-        /// <summary>
         /// 租户Api
         /// </summary>
         /// <param name="tenantService"></param>

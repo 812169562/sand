@@ -11,6 +11,7 @@ using Sand.Domain.Uow;
 using Sand.Filter;
 using AspectCore.Injector;
 using Dapper;
+using Sand.Context;
 
 namespace Sand.Domain.Repositories
 {
@@ -32,9 +33,9 @@ namespace Sand.Domain.Repositories
                 Table.Attach(entity);
             }
         }
-        [Uow]
         public override TEntity Create(TEntity entity)
         {
+            entity.SetCreateUser(UserContext);
             Table.Add(entity);
             return entity;
         }

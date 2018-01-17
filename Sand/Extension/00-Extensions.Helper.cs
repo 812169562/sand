@@ -260,5 +260,16 @@ namespace Sand.Extensions
         }
 
         #endregion
+
+        /// <summary>
+        /// 获取枚举的描述
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static string Description(this Type t)
+        {
+           return Helpers.Reflection.GetDescription(t);
+        }
     }
 }

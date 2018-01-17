@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Sand.Context;
 using Sand.Domain.Uow;
+using Sand.DI;
+using Autofac;
 
 namespace Sand.Domain.Repositories
 {
@@ -24,6 +26,7 @@ namespace Sand.Domain.Repositories
         protected BaseRepository(IUnitOfWork unitOfWork)
         {
             Uow = unitOfWork;
+            UserContext = DefaultIocConfig.Container.Resolve<IUserContext>();
         }
 
         /// <summary>

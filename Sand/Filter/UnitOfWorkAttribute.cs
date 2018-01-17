@@ -26,17 +26,20 @@ namespace Sand.Filter
                 await next(context);
                 _uow.Complete();
             }
-            catch (DbUpdateException ex)
-            {
-                _log = Log.Log.GetLog("UowAsync");
-                _log.Error(ex.Message);
-                throw ex;
-            }
             catch (System.Exception ex)
             {
-                _uow.RollBack();
-                _log = Log.Log.GetLog("Uow");
-                _log.Error(ex.Message);
+                if (ex.InnerException is DbUpdateException)
+                {
+                    var dbex = ex.InnerException as DbUpdateException;
+                    _log = Log.Log.GetLog("UowAsync");
+                    _log.Error(dbex.InnerException.Message);
+                }
+                else
+                {
+                    _log = Log.Log.GetLog("UowAsync");
+                    _log.Error(ex.Message);
+                }
+
                 throw ex;
             }
         }
@@ -68,9 +71,18 @@ namespace Sand.Filter
             }
             catch (System.Exception ex)
             {
-                //await _uow.RollBackAsync();
-                _log = Log.Log.GetLog("UowAsync");
-                _log.Error(ex.Message);
+                if (ex.InnerException is DbUpdateException)
+                {
+                    var dbex = ex.InnerException as DbUpdateException;
+                    _log = Log.Log.GetLog("UowAsync");
+                    _log.Error(dbex.InnerException.Message);
+                }
+                else
+                {
+                    _log = Log.Log.GetLog("UowAsync");
+                    _log.Error(ex.Message);
+                }
+             
                 throw ex;
             }
         }

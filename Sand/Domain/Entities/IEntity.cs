@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Sand.Context;
+using Sand.Domain.Enums;
+using Sand.Helpers;
 
 namespace Sand.Domain.Entities
 {
@@ -106,9 +108,11 @@ namespace Sand.Domain.Entities
         /// <param name="userContext">用户上下文</param>
         public void SetCreateUser(IUserContext userContext)
         {
+            
+            //SystemStatus.Pause.GetDescription()
             this.CreateId = userContext.LoginKey;
             this.CreateName = userContext.LoginName;
-            this.CreateTime = DateTime.UtcNow;
+            this.CreateTime = DateTime.Now;
             this.SetUpdateUser(userContext);
         }
         /// <summary>
@@ -119,8 +123,7 @@ namespace Sand.Domain.Entities
         {
             this.LastUpdateId = userContext.LoginKey;
             this.LastUpdateName = userContext.LoginName;
-            this.LastUpdateTime = DateTime.UtcNow;
-            this.SetUpdateUser(userContext);
+            this.LastUpdateTime = DateTime.Now;
         }
 
         /// <summary>

@@ -47,7 +47,7 @@ namespace Sand.Api.Controllers
                 Version = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())
             };
             //_baseDataRepository.Test();
-            _baseDataRepository.Create(basedata);
+           // _baseDataRepository.Create(basedata);
             return await Task.FromResult(new string[] { "value1", "value2" });
         }
 
