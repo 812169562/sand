@@ -22,7 +22,7 @@ Request.get = function (url, data, success, error) {
     alert(respose)
   })
 }
-Request.put = function (url, data, success, error) {
+Request.put = function (url, data, callback, error) {
   axios({
     method: 'put',
     url: url,
@@ -31,13 +31,20 @@ Request.put = function (url, data, success, error) {
       'Content-type': 'application/x-www-form-urlencoded'
     }
   })
-  .then(success)
+  .then(function (respose) {
+    console.log(respose)
+    console.log(respose.data)
+    if (respose.data.code === 2) {
+      debugger
+      Message({
+        showClose: true,
+        message: respose.data.message,
+        type: 'warning'
+      })
+    }
+    callback(respose.data.data)
+  })
   .catch(function (respose) {
-    this.$message({
-      showClose: true,
-      message: '警告哦，这是一条警告消息',
-      type: 'warning'
-    })
   })
 }
 export default Request
