@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Sand.Extension;
 using Sand.Helpers;
+using EnumsNET;
+using System.ComponentModel;
+using EnumsNET.NonGeneric;
+using Sand.Utils.Enums;
 
 namespace Sand.Extensions
 {
     /// <summary>
     /// 工具扩展
     /// </summary>
-    public static partial class Extensions {
+    public static partial class Extensions
+    {
         /// <summary>
         /// 转换为用分隔符拼接的字符串
         /// </summary>
@@ -19,7 +23,8 @@ namespace Sand.Extensions
         /// <param name="list">集合</param>
         /// <param name="quotes">引号，默认不带引号，范例：单引号 "'"</param>
         /// <param name="separator">分隔符，默认使用逗号分隔</param>
-        public static string Splice<T>( this IEnumerable<T> list, string quotes = "", string separator = "," ) {
+        public static string Splice<T>(this IEnumerable<T> list, string quotes = "", string separator = ",")
+        {
             var result = new StringBuilder();
             foreach (var each in list)
                 result.AppendFormat("{0}{1}{0}{2}", quotes, each, separator);
@@ -33,7 +38,8 @@ namespace Sand.Extensions
         /// <param name="length">返回长度</param>
         /// <param name="endCharCount">添加结束符号的个数，默认0，不添加</param>
         /// <param name="endChar">结束符号，默认为省略号</param>
-        public static string Truncate( this string text, int length, int endCharCount = 0, string endChar = "." ) {
+        public static string Truncate(this string text, int length, int endCharCount = 0, string endChar = ".")
+        {
             if (string.IsNullOrWhiteSpace(text))
                 return string.Empty;
             if (text.Length < length)
@@ -261,15 +267,72 @@ namespace Sand.Extensions
 
         #endregion
 
+
+
+
+        /// <summary>
+        /// 获取枚举的显示名称
+        /// </summary>
+        /// <typeparam name="T">枚举</typeparam>
+        /// <param name="t">枚举值</param>
+        /// <returns>如果返回-999即失败</returns>
+        public static int Value<TEnum>(this TEnum value) where TEnum : struct
+        {
+            if (!(value is Enum)) return -999;
+            var values = NonGenericEnums.GetMember(value.GetType(), value);
+            return values.ToInt32() ;
+        }
+
         /// <summary>
         /// 获取枚举的描述
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
+        /// <typeparam name="T">枚举</typeparam>
+        /// <param name="t">枚举值</param>
         /// <returns></returns>
-        public static string Description(this Type t)
+        public static string Description<TEnum>(this TEnum value) where TEnum : struct
         {
-           return Helpers.Reflection.GetDescription(t);
+            if (!(value is Enum)) return "";
+            var values = NonGenericEnums.GetMember(value.GetType(), value);
+            var des = values.Attributes.Get(typeof(DescriptionAttribute)) as DescriptionAttribute;
+            return des == null ? "" : des.Description;
+        }
+
+        /// <summary>
+        /// 获取枚举的显示名称
+        /// </summary>
+        /// <typeparam name="T">枚举</typeparam>
+        /// <param name="t">枚举值</param>
+        /// <returns></returns>
+        public static string DisplayName<TEnum>(this TEnum value) where TEnum : struct
+        {
+            if (!(value is  Enum)) return "";
+            var values = NonGenericEnums.GetMember(value.GetType(), value);
+            var dis = values.Attributes.Get(typeof(DisplayNameAttribute)) as DisplayNameAttribute;
+            return dis == null ? "" : dis.DisplayName;
+        }
+
+        /// <summary>
+        /// 获取枚举的显示名称
+        /// </summary>
+        /// <typeparam name="T">枚举</typeparam>
+        /// <param name="t">枚举值</param>
+        /// <returns></returns>
+        public static List<EnumKeyValue> GetEnumList<TEnum>(this TEnum type) where TEnum : struct
+        {
+            List<EnumKeyValue> list = new List<EnumKeyValue>();
+            if (!(type is Enum)) return list;
+            var values = NonGenericEnums.GetMembers(type.GetType());
+            foreach (EnumMember value in values)
+            {
+                var dis = value.Attributes.Get(typeof(DisplayNameAttribute)) as DisplayNameAttribute;
+                var des = value.Attributes.Get(typeof(DescriptionAttribute)) as DescriptionAttribute;
+                EnumKeyValue keyValue = new EnumKeyValue();
+                keyValue.Value = value.ToInt32();
+                keyValue.DisplayName = dis == null ? "" : dis.DisplayName;
+                keyValue.Description = des == null ? "" : des.Description;
+                list.Add(keyValue);
+            }
+            return list;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
-using Sand.Extension;
+using Sand.Extensions;
 
 namespace Sand.Helpers {
     /// <summary>

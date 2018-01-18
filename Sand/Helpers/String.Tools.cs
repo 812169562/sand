@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Sand.Extension;
+using Sand.Extensions;
 
 namespace Sand.Helpers  {
     /// <summary>

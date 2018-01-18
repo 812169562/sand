@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sand.Extension;
+using Sand.Extensions;
 
 namespace Sand.Helpers {
     /// <summary>

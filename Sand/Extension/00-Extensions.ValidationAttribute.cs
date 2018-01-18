@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Sand.Extension;
+using Sand.Extensions;
 using Sand.Helpers;
 
 namespace Sand.Extensions

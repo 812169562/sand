@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Sand.Expressions;
-using Sand.Extension;
+using Sand.Extensions;
 using Sand.Extensions;
 
 namespace Sand.Helpers  {

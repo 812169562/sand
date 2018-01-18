@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Sand.Extension;
+using Sand.Extensions;
 using Sand.Log;
 using Sand.Log.Extensions;
 using System;

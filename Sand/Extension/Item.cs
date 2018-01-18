@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sand.Extension
+namespace Sand.Extensions
 {
     /// <summary>
     /// 列表项

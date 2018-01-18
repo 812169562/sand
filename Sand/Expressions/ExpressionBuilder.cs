@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Sand.Extension;
+using Sand.Extensions;
 using Sand.Extensions;
 using Sand.Helpers;
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Sand.Context;
-using Sand.Domain.Enums;
 using Sand.Helpers;
 
 namespace Sand.Domain.Entities
@@ -109,7 +108,6 @@ namespace Sand.Domain.Entities
         public void SetCreateUser(IUserContext userContext)
         {
             
-            //SystemStatus.Pause.GetDescription()
             this.CreateId = userContext.LoginKey;
             this.CreateName = userContext.LoginName;
             this.CreateTime = DateTime.Now;

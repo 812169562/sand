@@ -1,4 +1,4 @@
-﻿using Sand.Extension;
+﻿using Sand.Extensions;
 using System.Collections.Generic;
 
 namespace Sand.Log.Abstractions
