@@ -69,9 +69,9 @@ namespace Sand.Api.Controllers
         /// </summary>
         /// <param name="tenant">租户信息</param>
         [HttpPut]
-        public async Task<TenantDto> Put(TenantDto tenant)
+        public async Task<IActionResult> Put(TenantDto tenant)
         {
-            return await _tenantService.CreateAsync(tenant);
+            return Success(await _tenantService.CreateAsync(tenant));
         }
     }
 }

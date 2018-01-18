@@ -36,6 +36,7 @@ namespace Sand.Domain.Repositories
         public override TEntity Create(TEntity entity)
         {
             entity.SetCreateUser(UserContext);
+            entity.Validation();
             Table.Add(entity);
             return entity;
         }

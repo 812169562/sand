@@ -1,7 +1,6 @@
 ﻿using EnumsNET;
 using System;
 using System.ComponentModel;
-using Enums = EnumsNET.Enums;
 
 namespace Sand.Utils.Enums
 {
@@ -22,5 +21,22 @@ namespace Sand.Utils.Enums
         [DisplayName("否")]
         [Description("停用")]
         Pause = 1
+    }
+
+    /// <summary>
+    /// 状态码
+    /// </summary>
+    public enum StateCode
+    {
+        /// <summary>
+        /// 成功
+        /// </summary>
+        [Description("成功")]
+        Ok = 1,
+        /// <summary>
+        /// 失败
+        /// </summary>
+        [Description("失败")]
+        Fail = 2
     }
 }

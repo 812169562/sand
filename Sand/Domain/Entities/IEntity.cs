@@ -4,6 +4,8 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Sand.Context;
 using Sand.Helpers;
+using Sand.Extension;
+using System.Linq;
 
 namespace Sand.Domain.Entities
 {
@@ -84,6 +86,10 @@ namespace Sand.Domain.Entities
         /// </summary>
         /// <param name="userContext"></param>
         void SetUpdateUser(IUserContext userContext);
+        /// <summary>
+        /// 验证
+        /// </summary>
+        void Validation();
 
         #endregion
     }
@@ -107,7 +113,7 @@ namespace Sand.Domain.Entities
         /// <param name="userContext">用户上下文</param>
         public void SetCreateUser(IUserContext userContext)
         {
-            
+
             this.CreateId = userContext.LoginKey;
             this.CreateName = userContext.LoginName;
             this.CreateTime = DateTime.Now;
@@ -229,7 +235,8 @@ namespace Sand.Domain.Entities
         /// </summary>
         public virtual void Validation()
         {
-
+            var collection = DataAnnotationValidation.Validate(this);
+            if (!collection.IsValid) throw new Exceptions.Warning(collection.Select(t => t.ErrorMessage).ToList());
         }
     }
 }
