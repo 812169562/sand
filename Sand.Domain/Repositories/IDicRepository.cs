@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sand.Data.Repositories.Systems
+namespace Sand.Domain.Repositories.Systems
 {
     public interface IDicRepository : IRepository<Dic>
     {

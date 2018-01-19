@@ -1,4 +1,5 @@
-<<template>
+<
+<template>
 <div class="container">
   <mu-raised-button label="新增" class="demo-raised-button" @click="dialogVisible = true"/>
   <mu-raised-button label="编辑" class="demo-raised-button" primary/>
@@ -58,6 +59,7 @@
 </div>
 </template>
 <script>
+import TenantAdd from './Tenant/Add'
 export default {
   data () {
     return {

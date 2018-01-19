@@ -4,7 +4,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Sand.Context;
 using Sand.Helpers;
-using Sand.Extension;
+using Sand.Extensions;
 using System.Linq;
 
 namespace Sand.Domain.Entities

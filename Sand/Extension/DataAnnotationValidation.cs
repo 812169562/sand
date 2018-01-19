@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Sand.Extension
+namespace Sand.Extensions
 {
     /// <summary>
     /// DataAnnotations验证操作

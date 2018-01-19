@@ -1,11 +1,14 @@
-﻿using Sand.Data.Repositories.Systems;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using Sand.Domain.Uow;
+using Sand.Extensions;
 using Sand.Domain.Entities.Systems;
 using Sand.Domain.Queries.Systems;
-using Sand.Domain.Repositories;
-using Sand.Domain.Uow;
-using Sand.Service.Contact.Systems;
 using Sand.Service.Dtos.Systems;
-using System;
+using Sand.Service.Contract.Systems;
+using Sand.Data.Repositories.Systems;
+using Sand.Domain.Repositories.Systems;
 
 namespace Sand.Service.Impl.Systems
 {
@@ -17,15 +20,27 @@ namespace Sand.Service.Impl.Systems
         /// <summary>
         /// 租户仓储
         /// </summary>
-        private readonly ITenantRepository _dicRepository;
+        private readonly ITenantRepository _tenantRepository;
+
         /// <summary>
-        /// 租户服务
+        /// 初始化租户服务
         /// </summary>
-        /// <param name="uow">工作单元</param>
-        /// <param name="dicRepository">租户仓储</param>
-        public TenantService(IUnitOfWork uow, ITenantRepository dicRepository) : base(uow, dicRepository)
+        /// <param name="unitOfWork">工作单元</param>
+        /// <param name="tenantRepository">租户仓储</param>
+        public TenantService(IUnitOfWork uow, ITenantRepository tenantRepository)
+            : base(uow, tenantRepository)
         {
-            _dicRepository = dicRepository;
+            _tenantRepository = tenantRepository;
+        }
+
+        /// <summary>
+        /// 创建租户条件表达式
+        /// </summary>
+        /// <param name="query">租户查询对象</param>
+        /// <returns>租户查询表达式</returns>
+        protected override Expression<Func<Tenant, bool>> CreateQuery(TenantQuery tenantQuery)
+        {
+            return base.CreateQuery(tenantQuery);
         }
     }
 }
