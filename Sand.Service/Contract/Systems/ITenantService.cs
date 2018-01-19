@@ -2,9 +2,9 @@
 using Sand.Domain.Queries.Systems;
 using Sand.Service.Dtos.Systems;
 
-namespace Sand.Service.Contact.Systems
+namespace Sand.Service.Contract.Systems
 {
-  public  interface IDicService:IService<DicDto,DicQuery,Dic>
+    public interface ITenantService : IService<TenantDto, TenantQuery, Tenant,int>
     {
     }
 }
