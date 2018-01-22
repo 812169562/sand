@@ -6,6 +6,7 @@
 *obj
 *packages
 *lut
+/CodeGenerator
 /sand/.vs
 /sand/.vs/Sand/lut
 /Sand/obj/Debug

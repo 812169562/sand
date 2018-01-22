@@ -13,14 +13,14 @@ export default new Router({
       component: Index
     },
     {
-      path: '/user',
-      name: 'User',
-      component: User
-    },
-    {
       path: '/tenant',
       name: 'Tenant',
       component: Tenant
+    },
+    {
+      path: '/user',
+      name: 'User',
+      component: User
     }
   ]
 })

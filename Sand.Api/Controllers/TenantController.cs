@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sand.Result;
+using Microsoft.AspNetCore.Cors;
+using Sand.Helpers;
 
 namespace Sand.Api.Controllers
 {
@@ -14,6 +16,7 @@ namespace Sand.Api.Controllers
     /// 租户控制器
     /// </summary>
     [Route("api/[controller]")]
+    [EnableCors("any")]
     public class TenantController : BaseApiController
     {
         /// <summary>
@@ -70,6 +73,10 @@ namespace Sand.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]TenantDto tenant)
         {
+            tenant.TenantId = Uuid.Next();
+            tenant.TenantName = "网三";
+            tenant.TelName = "三";
+            tenant.TelPhone = "1";
             return Success(await _tenantService.CreateAsync(tenant));
         }
     }

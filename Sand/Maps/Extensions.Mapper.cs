@@ -44,6 +44,7 @@ namespace Sand.Maps
             try
             {
                 var map = Mapper.Configuration.FindTypeMapFor(sourceType, destinationType);
+                map = map?? Mapper.Configuration.FindTypeMapFor(destinationType, sourceType);
                 if (map != null)
                     return Mapper.Map(source, destination);
                 var maps = Mapper.Configuration.GetAllTypeMaps();
