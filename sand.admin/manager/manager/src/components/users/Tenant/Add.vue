@@ -38,14 +38,11 @@ export default {
         BusinessCertificate: "",
         EndTime: "",
         Type: ""
-      }
+      },
+      visible: true
     }
   },
   methods: {
-    show (isShow) {
-      console.log(isShow)
-      this.dialogVisible = isShow
-    }
   }
 }
 </script>
