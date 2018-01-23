@@ -18,6 +18,11 @@ namespace Sand.Domain.Query
         /// <summary>
         /// 启始页
         /// </summary>
+        string QueryData { get; set; }
+
+        /// <summary>
+        /// 启始页
+        /// </summary>
         int PageIndex { get; set; }
 
         /// <summary>
@@ -174,6 +179,11 @@ namespace Sand.Domain.Query
         /// 排序生成器
         /// </summary>
         private OrderByBuilder _orderBuilder { get; set; }
+
+        /// <summary>
+        /// 查询数据
+        /// </summary>
+        public string QueryData { get; set; }
 
 
         /// <summary>

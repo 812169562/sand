@@ -2,27 +2,46 @@ import Vue from 'vue'
 import axios from 'axios'
 import qs from 'qs'
 import Vuex from 'vuex'
-import {Message} from 'element-ui'
+import {Message, Loading} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(Vuex)
 Vue.use(Message)
+Vue.use(Loading)
 let Request = {}
-Request.get = function (url, data, success, error) {
+Request.get = function (url, data, callback, error) {
+  let loadingInstance = Loading.service({fullscreen: true, background: '#F8F8FF'})
+  console.log(data)
   axios({
     method: 'get',
     url: url,
-    data: qs.stringify(data),
+    params: data,
     headers: {
-      'Content-type': 'application/x-www-form-urlencoded'
+      'Content-type': 'application/json'
     }
   })
-  .then(success)
+  .then(function (respose) {
+    if (respose.data.code === 2) {
+      Message({
+        showClose: true,
+        message: respose.data.message,
+        type: 'warning'
+      })
+      return
+    }
+    loadingInstance.close()
+    callback(respose.data)
+  })
+  .then(function () {
+    loadingInstance.close()
+  })
   .catch(function (respose) {
-    alert(respose)
+    loadingInstance.close()
   })
 }
 Request.put = function (url, data, callback, error) {
+  let loadingInstance = Loading.service({ fullscreen: true })
+  console.log(data)
   axios({
     method: 'put',
     url: url,
@@ -32,19 +51,22 @@ Request.put = function (url, data, callback, error) {
     }
   })
   .then(function (respose) {
-    console.log(respose)
-    console.log(respose.data)
     if (respose.data.code === 2) {
-      debugger
       Message({
         showClose: true,
         message: respose.data.message,
         type: 'warning'
       })
+      return
     }
-    callback(respose.data.data)
+    loadingInstance.close()
+    callback(respose.data)
+  })
+  .then(function () {
+    loadingInstance.close()
   })
   .catch(function (respose) {
+    loadingInstance.close()
   })
 }
 export default Request

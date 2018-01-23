@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index'
 import User from '@/components/users/User'
-import Tenant from '@/components/users/tenant'
+import Tenant from '@/components/users/tenant/list'
 
 Vue.use(Router)
 

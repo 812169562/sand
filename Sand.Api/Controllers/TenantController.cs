@@ -71,12 +71,8 @@ namespace Sand.Api.Controllers
         /// <param name="tenant">租户信息</param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]TenantDto tenant)
+        public async Task<IActionResult> Put(TenantDto tenant)
         {
-            tenant.TenantId = Uuid.Next();
-            tenant.TenantName = "网三";
-            tenant.TelName = "三";
-            tenant.TelPhone = "1";
             return Success(await _tenantService.CreateAsync(tenant));
         }
     }

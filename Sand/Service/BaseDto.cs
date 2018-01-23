@@ -47,6 +47,10 @@ namespace Sand.Service
         /// </summary>
         byte[] Version { get; set; }
         /// <summary>
+        /// 是否选择
+        /// </summary>
+        bool Selected { get; set; }
+        /// <summary>
         /// 验证
         /// </summary>
         void Validate();
@@ -103,6 +107,11 @@ namespace Sand.Service
         /// </summary>
         [ProtoMember(10)]
         public byte[] Version { get; set; }
+        /// <summary>
+        /// 是否选择
+        /// </summary>
+        [ProtoMember(10)]
+        public bool Selected { get; set; }
 
         public virtual void Validate()
         {
