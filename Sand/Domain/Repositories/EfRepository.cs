@@ -12,6 +12,7 @@ using Sand.Filter;
 using AspectCore.Injector;
 using Dapper;
 using Sand.Context;
+using Sand.Exceptions;
 
 namespace Sand.Domain.Repositories
 {
@@ -35,6 +36,7 @@ namespace Sand.Domain.Repositories
         }
         public override TEntity Create(TEntity entity)
         {
+            //entity.Init();
             entity.SetCreateUser(UserContext);
             entity.Validation();
             Table.Add(entity);
@@ -42,14 +44,18 @@ namespace Sand.Domain.Repositories
         }
         public override IList<TEntity> CreateList(IList<TEntity> entities)
         {
+            foreach (var entity in entities)
+            {
+                //entity.Init();
+                entity.SetCreateUser(UserContext);
+                entity.Validation();
+            }
             Table.AddRange(entities);
             return entities;
         }
 
         public override TPrimaryKey CreateReturnId(TEntity entity)
         {
-            //entity.SetCreator(UserContext);
-            //entity.Validate();
             return Create(entity).Id;
         }
 
@@ -75,18 +81,17 @@ namespace Sand.Domain.Repositories
 
         public override TEntity Update(TEntity entity)
         {
-            //entity.SetUpdate(UserContext);
-            //entity.Validate();
+            entity.Init();
+            entity.SetCreateUser(UserContext);
+            entity.Validation();
             AttachIfNot(entity);
             Uow.Entry(entity).State = EntityState.Modified;
-            //Uow.Complete();
             return entity;
         }
 
         public override TEntity Update(TPrimaryKey id, Action<TEntity> updateAction)
         {
             var entity = RetrieveById(id);
-            //entity.SetUpdate(UserContext);
             updateAction(entity);
             return entity;
         }
@@ -95,7 +100,6 @@ namespace Sand.Domain.Repositories
         {
             var entity = await RetrieveByIdAsync(id);
             await updateAction(entity);
-            //entity.SetUpdate(UserContext);
             return entity;
         }
 
@@ -107,7 +111,7 @@ namespace Sand.Domain.Repositories
                 entity = RetrieveById(id);
                 if (entity == null)
                 {
-                    return;
+                    throw new Warning("当前操作数据不是最新数据,请重新刷新页面再操作！");
                 }
             }
             Delete(entity);
@@ -125,15 +129,18 @@ namespace Sand.Domain.Repositories
 
         public override void Delete(TEntity entity)
         {
-            // entity.SetUpdate(UserContext);
+            entity.Init();
+            entity.SetUpdateUser(UserContext);
             AttachIfNot(entity);
             if (entity is ISoftDelete)
             {
                 ((ISoftDelete)entity).IsDeleted = true;
-                //Uow.Entry(entity).State = EntityState.Modified;
+                Uow.Entry(entity).State = EntityState.Modified;
             }
             else
+            {
                 Table.Remove(entity);
+            }
         }
 
         public override void Delete(IList<TPrimaryKey> ids)

@@ -44,7 +44,6 @@ namespace Sand.Api.Controllers
                 Name = "1",
                 PinYin = "1",
                 FullPinYin = "1",
-                Version = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString())
             };
             //_baseDataRepository.Test();
            // _baseDataRepository.Create(basedata);

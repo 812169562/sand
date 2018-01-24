@@ -58,17 +58,5 @@ namespace Sand.Domain.Entities.Systems
         /// 是否删除
         /// </summary>
         public bool IsDeleted { get; set; }
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public override void Init()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Load(IEntity entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

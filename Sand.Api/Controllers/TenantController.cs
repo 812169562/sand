@@ -62,7 +62,8 @@ namespace Sand.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]TenantDto tenant)
         {
-            return Success(await _tenantService.CreateAsync(tenant));
+            await _tenantService.UpdateAsync(tenant);
+            return Success();
         }
 
         /// <summary>
@@ -74,6 +75,18 @@ namespace Sand.Api.Controllers
         public async Task<IActionResult> Put(TenantDto tenant)
         {
             return Success(await _tenantService.CreateAsync(tenant));
+        }
+
+        /// <summary>
+        /// 删除租户信息
+        /// </summary>
+        /// <param name="tenant">删除租户信息</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> Delete(List<TenantDto> tenant)
+        {
+            await _tenantService.DeleteAsync(tenant);
+            return Success();
         }
     }
 }

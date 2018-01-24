@@ -316,7 +316,7 @@ namespace Sand.Service
         {
             var beforeEntities = dtos.Select(ToEntity).ToList();
             var entities = await Repository.RetrieveByIdsAsync(beforeEntities.Select(t => t.Id).ToList());
-            CheckVersion(dtos.Select(t => t.Version), entities.Select(t => t.Version));
+            CheckVersion(dtos.Select(t => t.Version).ToList(), entities.Select(t => t.Version).ToList());
             foreach (var each in entities)
             {
                 await Repository.DeleteAsync(each);
@@ -328,14 +328,18 @@ namespace Sand.Service
         /// </summary>
         /// <param name="updateVersion">更新前数据</param>
         /// <param name="dbVersion">数据库数据</param>
-        private void CheckVersion(IEnumerable<byte[]> updateVersion, IEnumerable<byte[]> dbVersion)
+        private void CheckVersion(List<Guid> updateVersion, List<Guid> dbVersion)
         {
-            if (updateVersion == null || dbVersion == null)
-                throw new Warning("已经不是最新数据,请重新刷新页面再操作！");
+            if (updateVersion==null|| dbVersion==null)
+                throw new Warning("当前操作数据不是最新数据,请重新刷新页面再操作！");
             if (!updateVersion.Any() || !dbVersion.Any())
-                throw new Warning("已经不是最新数据,请重新刷新页面再操作！");
-            if (updateVersion.Any(top => dbVersion.Any(top.NotEqual)))
-                throw new Warning("已经不是最新数据,请重新刷新页面再操作！");
+                throw new Warning("当前操作数据不是最新数据,请重新刷新页面再操作！");
+            foreach (var item in updateVersion)
+            {
+                var count = dbVersion.Where(t => t == item);
+                if (count.Count()==0)
+                    throw new Warning("当前操作数据不是最新数据,请重新刷新页面再操作！");
+            }
         }
 
         Paged<TDto> IService<TDto, TQuery, TEntity, TPrimaryKey>.Page(TQuery query)

@@ -45,7 +45,7 @@ namespace Sand.Service
         /// <summary>
         /// 版本号
         /// </summary>
-        byte[] Version { get; set; }
+        Guid Version { get; set; }
         /// <summary>
         /// 是否选择
         /// </summary>
@@ -106,7 +106,7 @@ namespace Sand.Service
         /// 版本号
         /// </summary>
         [ProtoMember(10)]
-        public byte[] Version { get; set; }
+        public Guid Version { get; set; }
         /// <summary>
         /// 是否选择
         /// </summary>

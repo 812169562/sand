@@ -6,7 +6,7 @@ import router from './router'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import 'muse-ui/dist/theme-light.css'
-import {Container, Header, Aside, Main, Footer, Dialog, Form, FormItem, Row, Col, Loading, DatePicker, TimePicker, TimeSelect, Pagination} from 'element-ui'
+import {Container, Header, Aside, Main, Footer, Dialog, Form, FormItem, Row, Col, Loading, Button, DatePicker, TimePicker, TimeSelect, Pagination, Table, TableColumn} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import qs from 'qs'
@@ -33,6 +33,9 @@ Vue.use(Vuex)
 Vue.use(qs)
 Vue.use(Request)
 Vue.use(Pagination)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Button)
 
 axios.defaults.withCredentials = true
 Vue.prototype.$http = axios

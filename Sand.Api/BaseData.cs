@@ -24,11 +24,6 @@ namespace Sand.Api
         public string Parent { get; set; }
         public  int Level { get; set; }
 
-        public override void Init()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Load(IEntity entity)
         {
             throw new NotImplementedException();

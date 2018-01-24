@@ -17,7 +17,7 @@ namespace Sand.Domain.Entities
         /// <summary>
         /// 版本号
         /// </summary>
-        byte[] Version { get; }
+        Guid Version { get; }
     }
 
     /// <summary>
@@ -103,9 +103,12 @@ namespace Sand.Domain.Entities
         /// <summary>
         /// 创建人信息
         /// </summary>
-        public abstract void Init();
+        public virtual void Init() {
+            Version = Uuid.Next();
+        }
 
-        public abstract void Load(IEntity entity);
+        public virtual void Load(IEntity entity) {
+        }
 
         /// <summary>
         /// 设置创建人
@@ -182,7 +185,7 @@ namespace Sand.Domain.Entities
         /// 版本号
         /// </summary>
         [Required]
-        public byte[] Version { get; set; }
+        public Guid Version { get; set; }
 
         /// <summary>
         /// 相等运算

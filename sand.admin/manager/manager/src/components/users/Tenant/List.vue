@@ -5,57 +5,30 @@
     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">
        <mu-raised-button label="新增" class="demo-raised-button"  @click="add()" />
        <mu-raised-button label="编辑" class="demo-raised-button"  primary/>
-       <mu-raised-button label="停用" class="demo-raised-button"  secondary/>
-       <mu-raised-button label="删除" class="demo-raised-button" backgroundColor="#333"/>
+       <mu-raised-button label="停用" class="demo-raised-button"  secondary backgroundColor="#f78989"/>
+       <mu-raised-button label="删除" class="demo-raised-button" backgroundColor="#909399"/>
     </el-col>
     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6">
       <mu-text-field   class="appbar-search-field"  hintText="请输入搜索内容" v-model="queryData"  />
-      <mu-raised-button color="green" class="demo-raised-button"  backgroundColor="#FFF0F5" label="检索" @click="query()"  />
+      <el-button type="success" plain size="small" @click="query()">检索</el-button>
     </el-col>
 </el-row>
-  <mu-table :fixedFooter="fixedFooter" :fixedHeader="fixedHeader" :height="height"
-    :enableSelectAll="true" :multiSelectable="multiSelectable"
-    :selectable="selectable" :showCheckbox="showCheckbox" :allRowsSelected="true">
-    <mu-thead slot="header">
-      <mu-tr>
-        <mu-th tooltip="序号">序号</mu-th>
-        <mu-th tooltip="名称">名称</mu-th>
-        <mu-th tooltip="联系人">联系人</mu-th>
-        <mu-th tooltip="联系电话">联系电话</mu-th>
-        <mu-th tooltip="状态">状态</mu-th>
-        <mu-th tooltip="操作">操作</mu-th>
-      </mu-tr>
-    </mu-thead>
-    <mu-tbody>
-      <mu-tr v-for="item,index in tenantData" :key="index" :selected="item.selected">
-        <mu-td>{{index + 1}}</mu-td>
-        <mu-td>{{item.tenantName}}</mu-td>
-        <mu-td>{{item.telName}}</mu-td>
-        <mu-td>{{item.telPhone}}</mu-td>
-        <mu-td>{{item.status}}</mu-td>
-        <mu-td><mu-icon-button tooltip="编辑" icon="update" @click="edit(item.TenantId)"/>
-        <mu-icon-button tooltip="停用" icon="stop" @click="stop(item.TenantId)"/>
-        <mu-icon-button tooltip="删除" icon="delete" @click="del(item.TenantId)"/>
-        </mu-td>
-      </mu-tr> 
-    </mu-tbody>
-    <mu-tfoot slot="footer">
-      <mu-tr>
-        <!-- <mu-td tooltip="序号">序号</mu-td>
-        <mu-td tooltip="名称">名称</mu-td>
-        <mu-td tooltip="联系人">联系人</mu-td>
-        <mu-td tooltip="状态">状态</mu-td>
-        <mu-td tooltip="操作">操作</mu-td> -->
-        <mu-td>
-         <!-- <el-row type="flex" justify="end">
-             <mu-pagination :total="total" :current="current" 
-             :showSizeChanger="showSizeChanger" :pageSizeOption="pageSizeOption" :pageSize="pageSize"
-             @pageSizeChange="query" @pageChange="query()">
-             </mu-pagination>
-         </el-row> -->
-
-      <div class="block">
-       <el-pagination
+ <el-table ref="multipleTable"  column-key="tenantId" tooltip-effect="dark" style="width: 100%" max-height="780" size="small" :data="tenantData"  @selection-change="handleSelectionChange">>
+    <el-table-column prop="selected" type="selection"  width="55" > </el-table-column>
+    <el-table-column type="index" label="序号"    width="55"></el-table-column>
+    <el-table-column prop="tenantName" label="名称" width="120"></el-table-column>
+    <el-table-column prop="telName"  label="联系人"  width="180"></el-table-column>
+    <el-table-column prop="telPhone" label="联系电话"  width="180"></el-table-column>
+    <el-table-column prop="status" label="状态" width="180" ></el-table-column>
+    <el-table-column label="操作"  align="right">
+    <template slot-scope="scope">
+      <el-button size="mini"  type="primary"  @click="edit(scope.row)">编辑</el-button>   
+      <el-button size="mini"  type="danger"  @click="stop(scope.row)">停用</el-button>
+      <el-button size="mini"  type="info"  @click="del(scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+    <el-pagination
          @size-change="sizeChange"
          @current-change="currentChange"
          :current-page="current"
@@ -64,11 +37,6 @@
          layout="total, sizes, prev, pager, next, jumper"
          :total="total">
         </el-pagination>
-          </div>
-        </mu-td>
-      </mu-tr>
-    </mu-tfoot>
-  </mu-table>
  <tenant-add :dialogVisible="dialog" @closeAdd="_addClose"></tenant-add>
 </div>
 </template>
@@ -77,13 +45,6 @@ import TenantAdd from "./Add"
 export default {
   data () {
     return {
-      fixedHeader: true,
-      fixedFooter: true,
-      selectable: true,
-      multiSelectable: true,
-      enableSelectAll: false,
-      showCheckbox: true,
-      height: "600px",
       tenantData: [],
       dialog: false,
       total: 15,
@@ -91,7 +52,8 @@ export default {
       showSizeChanger: true,
       pageSize: 15,
       pageSizeOption: [15, 30, 50, 100],
-      queryData: ''
+      queryData: '',
+      multipleSelection: []
     }
   },
   mounted: function () {
@@ -100,7 +62,7 @@ export default {
   methods: {
     query (pagesize) {
       let _this = this
-      this.$request.get("tenant/page", { pageIndex: _this.current, pageSize: _this.pageSize, queryData: _this.queryData }, function (respose) {
+      this.$request.get("tenant/page", { pageIndex: _this.current, pageSize: _this.pageSize, queryData: _this.queryData }, (respose) => {
         _this.tenantData = respose.data.result
         _this.total = respose.data.totalCount
         _this.current = respose.data.data.pageIndex
@@ -109,14 +71,17 @@ export default {
     add () {
       this.dialog = true
     },
-    del (ids) {
-      console.log(this.tenantData)
-      console.log(ids)
+    del (row) {
+      let tenant = []
+      tenant.push(row)
+      this.$request.delete('tenant', { tenant }, (respose) => {
+        this.query()
+      })
     },
-    edit (id) {
+    edit (rtenantow) {
 
     },
-    stop (ids) {
+    stop (tenant) {
 
     },
     sizeChange (pageSize) {
@@ -126,6 +91,9 @@ export default {
     currentChange (current) {
       this.current = current
       this.query()
+    },
+    handleSelectionChange (val) {
+      this.multipleSelection = val
     },
     _addClose (evtValue, refresh) {
       this.dialog = evtValue
@@ -139,10 +107,5 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .red {
-    color: red
-  }
-</style>
 
 

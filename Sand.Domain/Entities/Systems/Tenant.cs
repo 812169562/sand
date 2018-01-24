@@ -67,22 +67,5 @@ namespace Sand.Domain.Entities.Systems
         /// </summary>
         [Required(ErrorMessage = "删除标志不能为空")]
         public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public override void Init()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// 加载
-        /// </summary>
-        public override void Load(IEntity entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
