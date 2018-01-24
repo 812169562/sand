@@ -9,5 +9,6 @@ namespace Sand.Service.Contract.Systems
     /// </summary>
     public interface ITenantService : IService<TenantDto, TenantQuery, Tenant, int>
     {
+        TenantDto Test(Tenant dto);
     }
 }

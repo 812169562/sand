@@ -66,6 +66,8 @@ export default {
         _this.tenantData = respose.data.result
         _this.total = respose.data.totalCount
         _this.current = respose.data.data.pageIndex
+      },(error) => {
+        this.query()
       })
     },
     add () {

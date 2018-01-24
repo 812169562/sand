@@ -22,15 +22,28 @@ namespace Sand.Service.Impl.Systems
         /// </summary>
         private readonly ITenantRepository _tenantRepository;
 
+
+        /// <summary>
+        /// 租户仓储
+        /// </summary>
+        private readonly IDicRepository _dicRepository;
+
         /// <summary>
         /// 初始化租户服务
         /// </summary>
         /// <param name="unitOfWork">工作单元</param>
         /// <param name="tenantRepository">租户仓储</param>
-        public TenantService(IUnitOfWork uow, ITenantRepository tenantRepository)
+        public TenantService(IUnitOfWork uow, ITenantRepository tenantRepository, IDicRepository dicRepository)
             : base(uow, tenantRepository)
         {
             _tenantRepository = tenantRepository;
+            _dicRepository = dicRepository;
+        }
+
+        public TenantDto Test(Tenant dto)
+        {
+            var entity = _tenantRepository.RetrieveById(35);
+            return ToDto(entity);
         }
 
         /// <summary>

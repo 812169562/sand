@@ -10,7 +10,6 @@ Vue.use(Loading)
 let Request = {}
 Request.get = (url, data, callback, error) => {
   let loadingInstance = Loading.service({fullscreen: true, background: '#F8F8FF'})
-  console.log(data)
   axios({
     method: 'get',
     url: url,
@@ -65,7 +64,7 @@ Request.put = (url, data, callback, error) => {
     loadingInstance.close()
   })
 }
-Request.delete = (url, data, callback, message = '') => {
+Request.delete = (url, data, callback, error, message = '') => {
   message = !message ? '此操作将永久删除该数据' : message
   MessageBox.confirm(message + ', 是否继续?', '提示', {
     confirmButtonText: '确定',
@@ -95,6 +94,7 @@ Request.delete = (url, data, callback, message = '') => {
     }).then(() => {
       loadingInstance.close()
     }).catch(() => {
+      error()
       loadingInstance.close()
     })
   })
