@@ -45,8 +45,7 @@ Request.post = (url, data, callback, error) => {
     headers: {
       'Content-type': 'application/x-www-form-urlencoded'
     }
-  })
-  .then(function (respose) {
+  }).then(function (respose) {
     if (respose.data.code === 2) {
       Message({
         showClose: true,
@@ -61,7 +60,7 @@ Request.post = (url, data, callback, error) => {
     loadingInstance.close()
   })
   .catch(function (respose) {
-    loadingInstance.close()
+
   })
 }
 Request.add = (url, data, callback, error) => {
@@ -123,8 +122,9 @@ Request.delete = (url, data, callback, message = '') => {
       loadingInstance.close()
     }).catch(() => {
       loadingInstance.close()
+      MessageBox.alert("请求错误！")
     })
-  })
+  }).catch(() => {})
 }
 Request.stop = (url, data, callback, error, message = '') => {
   message = !message ? '是否停用该项目' : message
@@ -159,7 +159,8 @@ Request.stop = (url, data, callback, error, message = '') => {
     })
     .catch(function (respose) {
       loadingInstance.close()
+      MessageBox.alert("请求错误！")
     })
-  })
+  }).catch(() => {})
 }
 export default Request

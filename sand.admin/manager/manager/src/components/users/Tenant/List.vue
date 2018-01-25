@@ -5,8 +5,9 @@
     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">
        <mu-raised-button label="新增" class="demo-raised-button"  @click="add()" />
        <mu-raised-button label="编辑" class="demo-raised-button"  primary/>
-       <mu-raised-button label="停用" class="demo-raised-button"  secondary backgroundColor="#f78989"/>
-       <mu-raised-button label="删除" class="demo-raised-button" backgroundColor="#909399"/>
+       <mu-raised-button label="停用" class="demo-raised-button"  secondary backgroundColor="#f78989" @click="stop()"/>
+       <mu-raised-button label="启用" class="demo-raised-button" backgroundColor="#85ce61" @click="stop(null,true)"/>
+       <mu-raised-button label="删除" class="demo-raised-button" backgroundColor="#909399" @click="del()"/>
     </el-col>
     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6">
       <mu-text-field   class="appbar-search-field"  hintText="请输入搜索内容" v-model="queryData"  />
@@ -23,7 +24,7 @@
     <el-table-column label="操作"  align="right">
     <template slot-scope="scope">
       <el-button size="mini"  type="primary"  @click="edit(scope.row)">编辑</el-button>   
-      <el-button size="mini"  type="danger" v-if="scope.row.IsEnable"  @click="stop(scope.row)">停用</el-button>
+      <el-button size="mini"  type="danger" v-if="scope.row.isEnable"  @click="stop(scope.row)">停用</el-button>
       <el-button size="mini"  type="success"  v-else @click="stop(scope.row,true)">启用</el-button>
       <el-button size="mini"  type="info"  @click="del(scope.row)">删除</el-button>
       </template>
@@ -42,7 +43,7 @@
 </div>
 </template>
 <script>
-import TenantAdd from "./Add"
+import TenantAdd from './Add'
 export default {
   data () {
     return {
@@ -73,8 +74,11 @@ export default {
       this.dialog = true
     },
     del (row) {
-      let tenant = []
-      tenant.push(row)
+      let tenant = this.selectdata(row)
+      if (!tenant || tenant.length === 0) {
+        this.$message.error('请选择一条数据！')
+        return
+      }
       this.$request.delete('tenant', { tenant }, (respose) => {
         this.query()
       })
@@ -83,12 +87,22 @@ export default {
 
     },
     stop (row, isEnable) {
-      console.log(isEnable)
-      let tenant = []
-      tenant.push(row)
+      let tenant = this.selectdata(row)
+      if (!tenant || tenant.length === 0) {
+        this.$message.error('请选择一条数据！')
+        return
+      }
+      // if (tenant.(t=> t.isEnable!=isEnable)) {
+      //   this.$message.error('请选择同一种类型进行批量操作！')
+      //   return
+      // }
+      let msg = ''
+      if (isEnable) {
+        msg = '是否启用该项目？'
+      }
       this.$request.stop('tenant/stop', {tenant, isEnable}, (respose) => {
         this.query()
-      }, null, '是否启用该项目！')
+      }, null, msg)
     },
     sizeChange (pageSize) {
       this.pageSize = pageSize
@@ -106,6 +120,17 @@ export default {
       if (refresh) {
         this.query()
       }
+    },
+    selectdata (row) {
+      let tenant = []
+      if (row) {
+        tenant.push(row)
+      } else {
+        this.multipleSelection.forEach(element => {
+          tenant.push(element)
+        })
+      }
+      return tenant
     }
   },
   components: {

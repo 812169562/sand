@@ -6,7 +6,7 @@ import router from './router'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import 'muse-ui/dist/theme-light.css'
-import {Container, Header, Aside, Main, Footer, Dialog, Form, FormItem, Row, Col, Loading, Button, DatePicker, TimePicker, TimeSelect, Pagination, Table, TableColumn} from 'element-ui'
+import {Container, Header, Aside, Main, Footer, Dialog, Form, FormItem, Row, Col, Loading, Button, DatePicker, TimePicker, TimeSelect, Pagination, Table, TableColumn, Select, Message} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import qs from 'qs'
@@ -19,6 +19,7 @@ Vue.use(Container)
 Vue.use(DatePicker)
 Vue.use(TimePicker)
 Vue.use(TimeSelect)
+Vue.use(Select)
 Vue.use(Header)
 Vue.use(Aside)
 Vue.use(Main)
@@ -41,6 +42,7 @@ axios.defaults.withCredentials = true
 Vue.prototype.$http = axios
 Vue.prototype.$qs = qs
 Vue.prototype.$request = Request
+Vue.prototype.$message = Message
 axios.defaults.baseURL = 'http://localhost:5001/api/'
 
 /* eslint-disable no-new */

@@ -82,7 +82,7 @@ namespace Sand.Domain.Repositories
         public override TEntity Update(TEntity entity)
         {
             entity.Init();
-            entity.SetCreateUser(UserContext);
+            entity.SetUpdateUser(UserContext);
             entity.Validation();
             AttachIfNot(entity);
             Uow.Entry(entity).State = EntityState.Modified;
