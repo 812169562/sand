@@ -44,34 +44,32 @@
 <script>
 import TenantAdd from './Add'
 export default {
-  // 数据集合
+  /** 页面绑定数据 */
   data () {
     return {
-      /**
-      *
-      页面table绑定数据
-      */
+      /** 页面table绑定数据 */
       tenantData: [],
-      /**
-      *
-      新增编辑页面弹出框
-      */
+      /** 新增编辑页面弹出框  */
       dialog: false,
-     /**
-      *
-      分页总数据 初次加载绑定用
-      */
+      /** 分页总数据 初次加载绑定用 */
       total: 15,
-      current: 1, // 当前页
-      showSizeChanger: true, // 是否显示分页大小
-      pageSize: 15, // 分页数量
-      pageSizeOption: [15, 30, 50, 100], // 每页数据大小
-      queryData: '', // 查询数据
-      multipleSelection: [], // 已选中的数据
-      fullHeight: document.documentElement.clientHeight - 200 // 当前窗体高度
+      /** 当前页 */
+      current: 1,
+      /** 是否显示分页大小 */
+      showSizeChanger: true,
+      /** 当前页 */
+      pageSize: 15,
+      /** 每页数据大小 */
+      pageSizeOption: [15, 30, 50, 100],
+      /** 查询数据 */
+      queryData: '',
+      /** 已选中的数据 */
+      multipleSelection: [],
+      /** 当前窗体高度 */
+      fullHeight: document.documentElement.clientHeight - 200
     }
   },
-  // 初始化只执行一次
+  /**  初始化只执行一次 */
   mounted: function () {
     this.query()
     // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
@@ -81,14 +79,7 @@ export default {
     }
   },
   methods: {
-    /**
-    *
-    查询分页信息
-    *
-    @method 查询类型
-    *
-    @for Tenant
-    */
+    /**  查询分页信息 @for Tenant */
     query () {
       let _this = this
       this.$request.get("tenant/page", { pageIndex: _this.current, pageSize: _this.pageSize, queryData: _this.queryData }, (respose) => {
@@ -97,25 +88,12 @@ export default {
         _this.current = respose.data.data.pageIndex
       })
     },
-    /**
-    *
-    弹出添加数据页面
-    *
-    @method add
-    *
-    @for Tenant
-    */
+    /**  弹出添加数据页面 @for Tenant */
     add () {
       this.dialog = true
     },
-     /**
-    *
-    删除选中数据
-    *
-    @method del
-    *
-    @param 选中的当前数据
-    @for Tenant
+    /**  删除选中数据  @for Tenant
+     * @param 当前选中数据
     */
     del (row) {
       let tenant = this.selectdata(row)
@@ -127,9 +105,14 @@ export default {
         this.query()
       })
     },
+    /**  编辑选中数据  @for Tenant
+     * @param 当前选中数据
+    */
     edit (tenant) {
-
     },
+    /**  停用选中数据  @for Tenant
+     * @param 当前选中数据
+    */
     stop (row, isEnable) {
       let tenant = this.selectdata(row)
       if (!tenant || tenant.length === 0) {
@@ -148,23 +131,38 @@ export default {
         this.query()
       }, null, msg)
     },
+    /**  事件-修改分页大小  @for Tenant
+     * @param 选中分页大小
+    */
     sizeChange (pageSize) {
       this.pageSize = pageSize
       this.query()
     },
+    /** 事件-改变分页当前页   @for Tenant
+    * @param 选中分页大小
+    */
     currentChange (current) {
       this.current = current
       this.query()
     },
+    /** 事件-选中行   @for Tenant
+     * @param 当前选中行
+    */
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
+    /** 回调-子窗口添加完成之后回调关闭刷新当前页面   @for Tenant
+     * @param 当前选中行
+    */
     _addClose (evtValue, refresh) {
       this.dialog = evtValue
       if (refresh) {
         this.query()
       }
     },
+    /** 添加当前选中数据到集合内   @for Tenant
+     * @param 当前选中行
+    */
     selectdata (row) {
       let tenant = []
       if (row) {
@@ -177,6 +175,7 @@ export default {
       return tenant
     }
   },
+  /** 引用组建 */
   components: {
     "tenant-add": TenantAdd
   }

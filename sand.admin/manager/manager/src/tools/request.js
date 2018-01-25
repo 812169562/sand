@@ -8,18 +8,18 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(Vuex)
 Vue.use(Loading)
 
-  /**
- * http请求
- * @property get-查询
- * @property post-更新
- * @property add-新增
- * @property delete-删除
- * @property stop-停用
+/**
+  * http请求
+  * @property get-查询
+  * @property post-更新
+  * @property add-新增
+  * @property delete-删除
+  * @property stop-停用
  */
 let Request = {
    /**
   * 查询操作-发起get请求,主要用于查询数据用
-  * @param {url}      需要发送请求的地址
+  * @param {url}         需要发送请求的地址
   * @param {data}        请求无格式数据
   * @param {callback}    回调函数
   */
@@ -84,7 +84,7 @@ let Request = {
     .catch(function (respose) {
     })
   },
-   /**
+  /**
   * 新增操作-发起put请求,主要用于新增数据数据用
   * @param {string}      需要发送请求的地址
   * @param {Json}        请求无格式数据
@@ -119,7 +119,7 @@ let Request = {
       loadingInstance.close()
     })
   },
-   /**
+  /**
   * 删除操作-发起delete请求,主要用于删除数据用
   * @param {string}      需要发送请求的地址
   * @param {Json}        请求无格式数据
@@ -161,7 +161,7 @@ let Request = {
       })
     }).catch(() => {})
   },
-     /**
+  /**
   * 停用操作-发起post请求,主要用于停用数据用
   * @param {string}      需要发送请求的地址
   * @param {Json}        请求无格式数据
