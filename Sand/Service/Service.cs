@@ -321,7 +321,6 @@ namespace Sand.Service
             {
                 await Repository.DeleteAsync(each);
             }
-            await Uow.CompleteAsync();
         }
         /// <summary>
         /// 验证数据过期
@@ -330,27 +329,41 @@ namespace Sand.Service
         /// <param name="dbVersion">数据库数据</param>
         private void CheckVersion(List<Guid> updateVersion, List<Guid> dbVersion)
         {
-            if (updateVersion==null|| dbVersion==null)
+            if (updateVersion == null || dbVersion == null)
                 throw new Warning("当前操作数据不是最新数据,请重新刷新页面再操作！");
             if (!updateVersion.Any() || !dbVersion.Any())
                 throw new Warning("当前操作数据不是最新数据,请重新刷新页面再操作！");
             foreach (var item in updateVersion)
             {
                 var count = dbVersion.Where(t => t == item);
-                if (count.Count()==0)
+                if (count.Count() == 0)
                     throw new Warning("当前操作数据不是最新数据,请重新刷新页面再操作！");
             }
         }
 
-        Paged<TDto> IService<TDto, TQuery, TEntity, TPrimaryKey>.Page(TQuery query)
+        /// <summary>
+        /// 停用对应集合信息
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <returns></returns>
+        public virtual async Task StopOrEnableAsync(IList<TDto> dtos,bool isEnable=false)
         {
-            throw new NotImplementedException();
+            var beforeEntities = dtos.Select(ToEntity).ToList();
+            var entities = await Repository.RetrieveByIdsAsync(beforeEntities.Select(t => t.Id).ToList());
+            CheckVersion(dtos.Select(t => t.Version).ToList(), entities.Select(t => t.Version).ToList());
+            foreach (var each in entities)
+            {
+                each.IsEnable = isEnable;
+                each.Init();
+                await Repository.UpdateAsync(each);
+            }
         }
-
-        Task<Paged<TDto>> IService<TDto, TQuery, TEntity, TPrimaryKey>.PageAsync(TQuery query)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// 停用对应集合信息
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <returns></returns>
+        public void StopOrEnable(IList<TDto> dtos, bool isEnable = false) { }
     }
 
 

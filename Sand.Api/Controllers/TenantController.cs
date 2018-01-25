@@ -54,7 +54,6 @@ namespace Sand.Api.Controllers
             return Success(await _tenantService.PageAsync(tenantQuery));
         }
 
-
         /// <summary>
         /// 更新租户信息
         /// </summary>
@@ -86,6 +85,18 @@ namespace Sand.Api.Controllers
         public async Task<IActionResult> Delete(List<TenantDto> tenant)
         {
             await _tenantService.DeleteAsync(tenant);
+            return Success();
+        }
+
+        /// <summary>
+        /// 停用租户信息
+        /// </summary>
+        /// <param name="tenant">租户信息</param>
+        /// <returns></returns>
+        [HttpPost("stop", Name = "stop")]
+        public async Task<IActionResult> Stop(List<TenantDto> tenant, bool isEnable=false)
+        {
+            await _tenantService.StopOrEnableAsync(tenant, isEnable);
             return Success();
         }
     }

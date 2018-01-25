@@ -18,35 +18,15 @@ namespace Sand.Api.Controllers
     [Route("api/[controller]")]
     public class ValuesController : BaseApiController
     {
-        private readonly IBaseDataRepository _baseDataRepository;
 
-        public ValuesController(IBaseDataRepository baseDataRepository)
+        public ValuesController()
         {
-            _baseDataRepository = baseDataRepository;
         }
         // GET api/values
         [HttpGet]
         [EnableCors("any")]
         public async Task<IEnumerable<string>> Get()
         {
-
-            var basedata = new BaseData()
-            {
-                Code = "1",
-                TenantId = Guid.NewGuid(),
-                CreateTime = DateTime.Now,
-                CreateId = Guid.NewGuid().ToString(),
-                CreateName = "1",
-                LastUpdateTime = DateTime.Now,
-                LastUpdateId = "1",
-                LastUpdateName = "1",
-                IsEnable = true,
-                Name = "1",
-                PinYin = "1",
-                FullPinYin = "1",
-            };
-            //_baseDataRepository.Test();
-           // _baseDataRepository.Create(basedata);
             return await Task.FromResult(new string[] { "value1", "value2" });
         }
 
@@ -54,7 +34,7 @@ namespace Sand.Api.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return _baseDataRepository.Test();
+            return "";
         }
 
         // POST api/values

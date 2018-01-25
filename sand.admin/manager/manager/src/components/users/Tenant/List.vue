@@ -23,7 +23,8 @@
     <el-table-column label="操作"  align="right">
     <template slot-scope="scope">
       <el-button size="mini"  type="primary"  @click="edit(scope.row)">编辑</el-button>   
-      <el-button size="mini"  type="danger"  @click="stop(scope.row)">停用</el-button>
+      <el-button size="mini"  type="danger" v-if="scope.row.IsEnable"  @click="stop(scope.row)">停用</el-button>
+      <el-button size="mini"  type="success"  v-else @click="stop(scope.row,true)">启用</el-button>
       <el-button size="mini"  type="info"  @click="del(scope.row)">删除</el-button>
       </template>
     </el-table-column>
@@ -66,8 +67,6 @@ export default {
         _this.tenantData = respose.data.result
         _this.total = respose.data.totalCount
         _this.current = respose.data.data.pageIndex
-      },(error) => {
-        this.query()
       })
     },
     add () {
@@ -83,8 +82,13 @@ export default {
     edit (rtenantow) {
 
     },
-    stop (tenant) {
-
+    stop (row, isEnable) {
+      console.log(isEnable)
+      let tenant = []
+      tenant.push(row)
+      this.$request.stop('tenant/stop', {tenant, isEnable}, (respose) => {
+        this.query()
+      }, null, '是否启用该项目！')
     },
     sizeChange (pageSize) {
       this.pageSize = pageSize

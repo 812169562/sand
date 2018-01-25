@@ -100,14 +100,20 @@ namespace Sand.Domain.Entities
     /// <typeparam name="TPrimaryKey">主键类型</typeparam>
     public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
     {
+        public Entity()
+        {
+            IsEnable = true;
+        }
         /// <summary>
         /// 创建人信息
         /// </summary>
-        public virtual void Init() {
+        public virtual void Init()
+        {
             Version = Uuid.Next();
         }
 
-        public virtual void Load(IEntity entity) {
+        public virtual void Load(IEntity entity)
+        {
         }
 
         /// <summary>

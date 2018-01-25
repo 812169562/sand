@@ -185,7 +185,20 @@ namespace Sand.Service
         /// <param name="dto">实体</param>
         [UowAsync]
         Task<TDto> CreateOrUpdateAsync(TDto dto);
-
+        /// <summary>
+        /// 停用对应集合信息
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <returns></returns>
+        [UowAsync]
+        Task StopOrEnableAsync(IList<TDto> dtos,bool isEnable= false);
+        /// <summary>
+        /// 停用对应集合信息
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <returns></returns>
+        [Uow]
+        void StopOrEnable(IList<TDto> dtos, bool isEnable = false);
     }
 
     public interface IService<TDto, TQuery, TEntity> : IService<TDto, TQuery, TEntity, Guid> where TDto : IDto where TQuery : IQuery<TEntity, Guid> where TEntity : class, IEntity<Guid>

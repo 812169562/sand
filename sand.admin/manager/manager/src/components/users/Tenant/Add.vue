@@ -58,8 +58,7 @@ export default {
     save () {
       this.fullscreenLoading = true
       let _this = this
-      this.$request.put("tenant", {tenant: this.form}, function (respose) {
-        console.log(respose)
+      this.$request.add("tenant", {tenant: this.form}, function (respose) {
         if (respose.code === 1) {
           _this.init()
           _this.hidden(true)
