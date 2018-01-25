@@ -56,7 +56,6 @@ export default {
       this.$emit('closeAdd', false, refresh)
     },
     save () {
-      this.fullscreenLoading = true
       let _this = this
       this.$request.add("tenant", {tenant: this.form}, function (respose) {
         if (respose.code === 1) {

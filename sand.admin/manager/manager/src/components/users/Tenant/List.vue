@@ -2,19 +2,18 @@
 <template>
 <div class="container">
   <el-row>
-    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">
+    <el-col :xs="18" :sm="18" :md="14" :lg="17" :xl="18">
        <mu-raised-button label="新增" class="demo-raised-button"  @click="add()" />
-       <mu-raised-button label="编辑" class="demo-raised-button"  primary/>
        <mu-raised-button label="停用" class="demo-raised-button"  secondary backgroundColor="#f78989" @click="stop()"/>
        <mu-raised-button label="启用" class="demo-raised-button" backgroundColor="#85ce61" @click="stop(null,true)"/>
        <mu-raised-button label="删除" class="demo-raised-button" backgroundColor="#909399" @click="del()"/>
     </el-col>
-    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6">
+    <el-col :xs="6" :sm="6" :md="10" :lg="7" :xl="6">
       <mu-text-field   class="appbar-search-field"  hintText="请输入搜索内容" v-model="queryData"  />
       <el-button type="success" plain size="small" @click="query()">检索</el-button>
     </el-col>
 </el-row>
- <el-table ref="multipleTable"  column-key="tenantId" tooltip-effect="dark" style="width: 100%" max-height="780" size="small" :data="tenantData"  @selection-change="handleSelectionChange">>
+ <el-table ref="multipleTable"  column-key="tenantId" tooltip-effect="dark" style="width: 100%" max-height="780" :height="fullHeight" size="small" :data="tenantData"  @selection-change="handleSelectionChange">>
     <el-table-column prop="selected" type="selection"  width="55" > </el-table-column>
     <el-table-column type="index" label="序号"    width="55"></el-table-column>
     <el-table-column prop="tenantName" label="名称" width="120"></el-table-column>
@@ -39,30 +38,58 @@
          layout="total, sizes, prev, pager, next, jumper"
          :total="total">
         </el-pagination>
- <tenant-add :dialogVisible="dialog" @closeAdd="_addClose"></tenant-add>
+ <tenant-add :dialogVisible="dialog" @closeAdd="_addClose" @edit="_edit"></tenant-add>
 </div>
 </template>
 <script>
 import TenantAdd from './Add'
 export default {
+  // 数据集合
   data () {
     return {
+      /**
+      *
+      页面table绑定数据
+      */
       tenantData: [],
+      /**
+      *
+      新增编辑页面弹出框
+      */
       dialog: false,
+     /**
+      *
+      分页总数据 初次加载绑定用
+      */
       total: 15,
-      current: 1,
-      showSizeChanger: true,
-      pageSize: 15,
-      pageSizeOption: [15, 30, 50, 100],
-      queryData: '',
-      multipleSelection: []
+      current: 1, // 当前页
+      showSizeChanger: true, // 是否显示分页大小
+      pageSize: 15, // 分页数量
+      pageSizeOption: [15, 30, 50, 100], // 每页数据大小
+      queryData: '', // 查询数据
+      multipleSelection: [], // 已选中的数据
+      fullHeight: document.documentElement.clientHeight - 200 // 当前窗体高度
     }
   },
+  // 初始化只执行一次
   mounted: function () {
     this.query()
+    // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
+    const that = this
+    window.onresize = () => {
+      that.fullHeight = document.documentElement.clientHeight - 200
+    }
   },
   methods: {
-    query (pagesize) {
+    /**
+    *
+    查询分页信息
+    *
+    @method 查询类型
+    *
+    @for Tenant
+    */
+    query () {
       let _this = this
       this.$request.get("tenant/page", { pageIndex: _this.current, pageSize: _this.pageSize, queryData: _this.queryData }, (respose) => {
         _this.tenantData = respose.data.result
@@ -70,9 +97,26 @@ export default {
         _this.current = respose.data.data.pageIndex
       })
     },
+    /**
+    *
+    弹出添加数据页面
+    *
+    @method add
+    *
+    @for Tenant
+    */
     add () {
       this.dialog = true
     },
+     /**
+    *
+    删除选中数据
+    *
+    @method del
+    *
+    @param 选中的当前数据
+    @for Tenant
+    */
     del (row) {
       let tenant = this.selectdata(row)
       if (!tenant || tenant.length === 0) {
@@ -83,7 +127,7 @@ export default {
         this.query()
       })
     },
-    edit (rtenantow) {
+    edit (tenant) {
 
     },
     stop (row, isEnable) {
