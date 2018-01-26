@@ -6,19 +6,12 @@ using System.Threading;
 using Sand.Api;
 using Sand.Extensions;
 using Xunit;
-using Sand.Extensions;
 using Sand.Utils.Enums;
 
 namespace Sand.Test
 {
     public class HelperTest
     {
-        private readonly IBaseDataRepository _baseDataRepository;
-        //public HelperTest(IBaseDataRepository baseDataRepository)
-        //{
-        //    _baseDataRepository = baseDataRepository;
-        //}
-
         [Fact]
         public void EunmDescription()
         {
