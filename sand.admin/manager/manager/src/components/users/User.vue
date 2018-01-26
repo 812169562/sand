@@ -40,7 +40,7 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       tableData: [
         {
@@ -81,9 +81,9 @@ export default {
       enableSelectAll: false,
       showCheckbox: true,
       height: "300px"
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="css">

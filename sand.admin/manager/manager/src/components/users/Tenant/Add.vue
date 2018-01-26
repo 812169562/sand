@@ -22,48 +22,50 @@
 </template>
 <script>
 export default {
-  name: 'tenant-add',
+  name: "tenant-add",
   props: {
     dialogVisible: {
       type: Boolean,
       default: false
+    },
+    id: {
+      type: String,
+      default: ""
     }
   },
-  data () {
+  data() {
     return {
-      form: {
-        telName: '',
-        telPhone: '',
-        tenantName: '',
-        businessCertificate: '',
-        endTime: '',
-        type: ''
-      }
+      form: {}
+    };
+  },
+  mounted: () => {
+    if (this.id) {
+      this.init();
     }
   },
   methods: {
-    init () {
+    init() {
       this.form = {
-        telName: '',
-        telPhone: '',
-        tenantName: '',
-        businessCertificate: '',
-        endTime: '',
-        type: ''
-      }
+        telName: "",
+        telPhone: "",
+        tenantName: "",
+        businessCertificate: "",
+        endTime: "",
+        type: ""
+      };
     },
-    hidden (refresh) {
-      this.$emit('closeAdd', false, refresh)
+    hidden(refresh) {
+      this.$emit("closeAdd", false, refresh);
     },
-    save () {
-      let _this = this
-      this.$request.add("tenant", {tenant: this.form}, function (respose) {
+    save() {
+      let _this = this;
+      this.$request.add("tenant", { tenant: this.form }, function(respose) {
         if (respose.code === 1) {
-          _this.init()
-          _this.hidden(true)
+          _this.init();
+          _this.hidden(true);
         }
-      })
+      });
     }
   }
-}
+};
 </script>

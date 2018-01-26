@@ -42,10 +42,10 @@
 </div>
 </template>
 <script>
-import TenantAdd from './Add'
+import TenantAdd from "./Add";
 export default {
   /** 页面绑定数据 */
-  data () {
+  data() {
     return {
       /** 页面table绑定数据 */
       tenantData: [],
@@ -62,124 +62,138 @@ export default {
       /** 每页数据大小 */
       pageSizeOption: [15, 30, 50, 100],
       /** 查询数据 */
-      queryData: '',
+      queryData: "",
       /** 已选中的数据 */
       multipleSelection: [],
       /** 当前窗体高度 */
       fullHeight: document.documentElement.clientHeight - 200
-    }
+    };
   },
   /**  初始化只执行一次 */
-  mounted: function () {
-    this.query()
+  mounted: function() {
+    this.query();
     // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
-    const that = this
+    const that = this;
     window.onresize = () => {
-      that.fullHeight = document.documentElement.clientHeight - 200
-    }
+      that.fullHeight = document.documentElement.clientHeight - 200;
+    };
   },
   methods: {
     /**  查询分页信息 @for Tenant */
-    query () {
-      let _this = this
-      this.$request.get("tenant/page", { pageIndex: _this.current, pageSize: _this.pageSize, queryData: _this.queryData }, (respose) => {
-        _this.tenantData = respose.data.result
-        _this.total = respose.data.totalCount
-        _this.current = respose.data.data.pageIndex
-      })
+    query() {
+      let _this = this;
+      this.$request.get(
+        "tenant/page",
+        {
+          pageIndex: _this.current,
+          pageSize: _this.pageSize,
+          queryData: _this.queryData
+        },
+        respose => {
+          _this.tenantData = respose.data.result;
+          _this.total = respose.data.totalCount;
+          _this.current = respose.data.data.pageIndex;
+        }
+      );
     },
     /**  弹出添加数据页面 @for Tenant */
-    add () {
-      this.dialog = true
+    add() {
+      this.dialog = true;
     },
     /**  删除选中数据  @for Tenant
      * @param 当前选中数据
-    */
-    del (row) {
-      let tenant = this.selectdata(row)
+     */
+    del(row) {
+      let tenant = this.selectdata(row);
       if (!tenant || tenant.length === 0) {
-        this.$message.error('请选择一条数据！')
-        return
+        this.$message.error("请选择一条数据！");
+        return;
       }
-      this.$request.delete('tenant', { tenant }, (respose) => {
-        this.query()
-      })
+      this.$request.delete("tenant", { tenant }, respose => {
+        this.query();
+      });
     },
     /**  编辑选中数据  @for Tenant
      * @param 当前选中数据
-    */
-    edit (tenant) {
-    },
+     */
+    edit(tenant) {},
     /**  停用选中数据  @for Tenant
      * @param 当前选中数据
-    */
-    stop (row, isEnable) {
-      let tenant = this.selectdata(row)
+     */
+    stop(row, isEnable) {
+      let tenant = this.selectdata(row);
       if (!tenant || tenant.length === 0) {
-        this.$message.error('请选择一条数据！')
-        return
+        this.$message.error("请选择一条数据！");
+        return;
       }
       // if (tenant.(t=> t.isEnable!=isEnable)) {
       //   this.$message.error('请选择同一种类型进行批量操作！')
       //   return
       // }
-      let msg = ''
+      let msg = "";
       if (isEnable) {
-        msg = '是否启用该项目？'
+        msg = "是否启用该项目？";
       }
-      this.$request.stop('tenant/stop', {tenant, isEnable}, (respose) => {
-        this.query()
-      }, null, msg)
+      this.$request.stop(
+        "tenant/stop",
+        { tenant, isEnable },
+        respose => {
+          this.query();
+        },
+        null,
+        msg
+      );
     },
     /**  事件-修改分页大小  @for Tenant
      * @param 选中分页大小
-    */
-    sizeChange (pageSize) {
-      this.pageSize = pageSize
-      this.query()
+     */
+    sizeChange(pageSize) {
+      this.pageSize = pageSize;
+      this.query();
     },
     /** 事件-改变分页当前页   @for Tenant
-    * @param 选中分页大小
-    */
-    currentChange (current) {
-      this.current = current
-      this.query()
+     * @param 选中分页大小
+     */
+    currentChange(current) {
+      this.current = current;
+      this.query();
     },
     /** 事件-选中行   @for Tenant
      * @param 当前选中行
-    */
-    handleSelectionChange (val) {
-      this.multipleSelection = val
+     */
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
     },
     /** 回调-子窗口添加完成之后回调关闭刷新当前页面   @for Tenant
      * @param 当前选中行
-    */
-    _addClose (evtValue, refresh) {
-      this.dialog = evtValue
+     */
+    _addClose(evtValue, refresh) {
+      this.dialog = evtValue;
       if (refresh) {
-        this.query()
+        this.query();
       }
     },
     /** 添加当前选中数据到集合内   @for Tenant
      * @param 当前选中行
-    */
-    selectdata (row) {
-      let tenant = []
+     */
+    selectdata(row) {
+      let tenant = [];
       if (row) {
-        tenant.push(row)
+        tenant.push(row);
       } else {
         this.multipleSelection.forEach(element => {
-          tenant.push(element)
-        })
+          tenant.push(element);
+        });
       }
-      return tenant
+      return tenant;
+    },
+    _edit() {
+
     }
   },
   /** 引用组建 */
   components: {
     "tenant-add": TenantAdd
   }
-}
+};
 </script>
-
-

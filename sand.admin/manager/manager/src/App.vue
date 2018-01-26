@@ -25,8 +25,7 @@
 <<script>
 export default {
   methods: {
-    show: function () {
-    }
+    show: function() {}
   }
-}
+};
 </script>

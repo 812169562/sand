@@ -22,8 +22,10 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
      // 强制使用单引号
-     "quotes": [0, "single"],
+     'quotes': [0, "single"],
      'no-extra-semi': 'off',
-     'no-extra-semi': 0,
+     'no-extra-boolean-cast': 0,
+     "semi": [2, "always"],
+     "space-before-function-paren": [0, "never"]
   }
 }
