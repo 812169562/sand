@@ -38,11 +38,11 @@
          layout="total, sizes, prev, pager, next, jumper"
          :total="total">
         </el-pagination>
- <tenant-add :dialogVisible="dialog" @closeAdd="_addClose" @edit="_edit"></tenant-add>
+ <tenant-add :dialogVisible="dialog" @closeAdd="_addClose" :id="childId"></tenant-add>
 </div>
 </template>
 <script>
-import TenantAdd from "./Add";
+import TenantAdd from './Add';
 export default {
   /** 页面绑定数据 */
   data() {
@@ -62,11 +62,13 @@ export default {
       /** 每页数据大小 */
       pageSizeOption: [15, 30, 50, 100],
       /** 查询数据 */
-      queryData: "",
+      queryData: '',
       /** 已选中的数据 */
       multipleSelection: [],
       /** 当前窗体高度 */
-      fullHeight: document.documentElement.clientHeight - 200
+      fullHeight: document.documentElement.clientHeight - 200,
+      /** 子页面编号 */
+      childId: ''
     };
   },
   /**  初始化只执行一次 */
@@ -83,7 +85,7 @@ export default {
     query() {
       let _this = this;
       this.$request.get(
-        "tenant/page",
+        'tenant/page',
         {
           pageIndex: _this.current,
           pageSize: _this.pageSize,
@@ -106,36 +108,39 @@ export default {
     del(row) {
       let tenant = this.selectdata(row);
       if (!tenant || tenant.length === 0) {
-        this.$message.error("请选择一条数据！");
+        this.$message.error('请选择一条数据！');
         return;
       }
-      this.$request.delete("tenant", { tenant }, respose => {
+      this.$request.delete('tenant', { tenant }, respose => {
         this.query();
       });
     },
     /**  编辑选中数据  @for Tenant
      * @param 当前选中数据
      */
-    edit(tenant) {},
+    edit(tenant) {
+      this.childId = tenant.id;
+      this.dialog = true;
+    },
     /**  停用选中数据  @for Tenant
      * @param 当前选中数据
      */
     stop(row, isEnable) {
       let tenant = this.selectdata(row);
       if (!tenant || tenant.length === 0) {
-        this.$message.error("请选择一条数据！");
+        this.$message.error('请选择一条数据！');
         return;
       }
       // if (tenant.(t=> t.isEnable!=isEnable)) {
       //   this.$message.error('请选择同一种类型进行批量操作！')
       //   return
       // }
-      let msg = "";
+      let msg = '';
       if (isEnable) {
-        msg = "是否启用该项目？";
+        msg = '是否启用该项目？';
       }
       this.$request.stop(
-        "tenant/stop",
+        'tenant/stop',
         { tenant, isEnable },
         respose => {
           this.query();
@@ -186,14 +191,11 @@ export default {
         });
       }
       return tenant;
-    },
-    _edit() {
-
     }
   },
   /** 引用组建 */
   components: {
-    "tenant-add": TenantAdd
+    'tenant-add': TenantAdd
   }
 };
 </script>
