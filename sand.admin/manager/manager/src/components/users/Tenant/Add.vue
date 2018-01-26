@@ -4,7 +4,7 @@
   :visible.sync="dialogVisible"
   width="45%"
   height="75%"
-  :close-on-click-modal="false" :before-close="hidden">
+  :close-on-click-modal="false" :before-close="hidden" @open="open">
     <el-form :model="form">
        <mu-text-field label="名称" hintText="请输入名称" v-model="form.tenantName"  lab labelFloat/>
        <mu-text-field label="电话号码" hintText="请输入电话号码" v-model="form.telPhone"  lab labelFloat/>
@@ -55,16 +55,19 @@ export default {
       };
     },
     hidden(refresh) {
-      this.$emit("closeAdd", false, refresh);
+      this.$emit('closeAdd', false, refresh);
     },
     save() {
       let _this = this;
-      this.$request.add("tenant", { tenant: this.form }, function(respose) {
+      this.$request.add('tenant', { tenant: this.form }, function(respose) {
         if (respose.code === 1) {
           _this.init();
           _this.hidden(true);
         }
       });
+    },
+    open() {
+      this.$message('2');
     }
   }
 };
