@@ -1,4 +1,4 @@
-<template>
+﻿<template>
  <el-dialog
   title="新增信息"
   :visible.sync="dialogVisible"
@@ -6,7 +6,6 @@
   height="75%"
   :close-on-click-modal="false" :before-close="hidden" @open="open">
     <el-form :model="form">
-         <mu-text-field label="租户" hintText="请输入租户" v-model="form.tenantId"  lab labelFloat/>
          <mu-text-field label="租户名" hintText="请输入租户名" v-model="form.tenantName"  lab labelFloat/>
          <mu-text-field label="联系人" hintText="请输入联系人" v-model="form.telName"  lab labelFloat/>
          <mu-text-field label="联系地址" hintText="请输入联系地址" v-model="form.address"  lab labelFloat/>
@@ -15,7 +14,6 @@
          <mu-text-field label="代码" hintText="请输入代码" v-model="form.code"  lab labelFloat/>
          <mu-date-picker  label="结束日期" hintText="请输入结束日期" v-model="form.endTime"  lab labelFloat/>
          <mu-text-field label="类型" hintText="请输入类型" v-model="form.type"  lab labelFloat/>
-         <mu-text-field label="状态" hintText="请输入状态" v-model="form.status"  lab labelFloat/>
   </el-form>
   <span slot="footer" class="dialog-footer">
      <mu-raised-button label="取 消" class="demo-raised-button" @click="hidden()" secondary/>

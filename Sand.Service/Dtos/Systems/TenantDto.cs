@@ -43,6 +43,10 @@ namespace Sand.Service.Dtos.Systems
         /// </summary>
         public int Status { get; set; }
         /// <summary>
+        /// 联系地址
+        /// </summary>
+        public string Address { get; set; }
+        /// <summary>
         /// 是否删除
         /// </summary>
         public bool IsDeleted { get; set; }

@@ -1,4 +1,4 @@
-
+﻿
 <template>
 <div class="container">
   <el-row>
@@ -16,7 +16,6 @@
  <el-table ref="multipleTable"  column-key="id" tooltip-effect="dark" style="width: 100%" max-height="780" :height="fullHeight" size="small" :data="tenantData"  @selection-change="handleSelectionChange">
  <el-table-column prop="selected" fixed="left" type="selection"  width="55" > </el-table-column>
  <el-table-column type="index"  fixed="left" label="序号"    width="55"></el-table-column>
-         <el-table-column prop="tenantId" label="租户" width="100"></el-table-column>
          <el-table-column prop="tenantName" label="租户名" width="100"></el-table-column>
          <el-table-column prop="telName" label="联系人" width="100"></el-table-column>
          <el-table-column prop="address" label="联系地址" width="100"></el-table-column>
@@ -25,7 +24,6 @@
          <el-table-column prop="code" label="代码" width="100"></el-table-column>
          <el-table-column prop="endTime" label="结束日期" width="100"></el-table-column>
          <el-table-column prop="type" label="类型" width="100"></el-table-column>
-         <el-table-column prop="status" label="状态" width="100"></el-table-column>
     <el-table-column label="操作"  align="right">
     <template slot-scope="scope">
       <el-button size="mini"  type="primary"  @click="edit(scope.row)">编辑</el-button>   
