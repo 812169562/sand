@@ -4,7 +4,7 @@
   <el-row>
     <el-col :xs="18" :sm="18" :md="14" :lg="17" :xl="18">
        <mu-raised-button label="新增" class="demo-raised-button"  @click="add()" />
-       <mu-raised-button label="停用" class="demo-raised-button"  secondary backgroundColor="#f78989" @click="stop()"/>
+       <mu-raised-button label="停用" class="demo-raised-button"  secondary backgroundColor="#f78989" @click="stop(null,false)"/>
        <mu-raised-button label="启用" class="demo-raised-button" backgroundColor="#85ce61" @click="stop(null,true)"/>
        <mu-raised-button label="删除" class="demo-raised-button" backgroundColor="#909399" @click="del()"/>
     </el-col>
@@ -13,17 +13,23 @@
       <el-button type="success" plain size="small" @click="query()">检索</el-button>
     </el-col>
 </el-row>
- <el-table ref="multipleTable"  column-key="tenantId" tooltip-effect="dark" style="width: 100%" max-height="780" :height="fullHeight" size="small" :data="tenantData"  @selection-change="handleSelectionChange">>
-    <el-table-column prop="selected" type="selection"  width="55" > </el-table-column>
-    <el-table-column type="index" label="序号"    width="55"></el-table-column>
-    <el-table-column prop="tenantName" label="名称" width="120"></el-table-column>
-    <el-table-column prop="telName"  label="联系人"  width="180"></el-table-column>
-    <el-table-column prop="telPhone" label="联系电话"  width="180"></el-table-column>
-    <el-table-column prop="status" label="状态" width="180" ></el-table-column>
+ <el-table ref="multipleTable"  column-key="id" tooltip-effect="dark" style="width: 100%" max-height="780" :height="fullHeight" size="small" :data="tenantData"  @selection-change="handleSelectionChange">
+ <el-table-column prop="selected" fixed="left" type="selection"  width="55" > </el-table-column>
+ <el-table-column type="index"  fixed="left" label="序号"    width="55"></el-table-column>
+         <el-table-column prop="tenantId" label="租户" width="100"></el-table-column>
+         <el-table-column prop="tenantName" label="租户名" width="100"></el-table-column>
+         <el-table-column prop="telName" label="联系人" width="100"></el-table-column>
+         <el-table-column prop="address" label="联系地址" width="100"></el-table-column>
+         <el-table-column prop="telPhone" label="联系电话" width="100"></el-table-column>
+         <el-table-column prop="businessCertificate" label="营业证书" width="100"></el-table-column>
+         <el-table-column prop="code" label="代码" width="100"></el-table-column>
+         <el-table-column prop="endTime" label="结束日期" width="100"></el-table-column>
+         <el-table-column prop="type" label="类型" width="100"></el-table-column>
+         <el-table-column prop="status" label="状态" width="100"></el-table-column>
     <el-table-column label="操作"  align="right">
     <template slot-scope="scope">
       <el-button size="mini"  type="primary"  @click="edit(scope.row)">编辑</el-button>   
-      <el-button size="mini"  type="danger" v-if="scope.row.isEnable"  @click="stop(scope.row)">停用</el-button>
+      <el-button size="mini"  type="danger" v-if="scope.row.isEnable"  @click="stop(scope.row,false)">停用</el-button>
       <el-button size="mini"  type="success"  v-else @click="stop(scope.row,true)">启用</el-button>
       <el-button size="mini"  type="info"  @click="del(scope.row)">删除</el-button>
       </template>
@@ -38,11 +44,11 @@
          layout="total, sizes, prev, pager, next, jumper"
          :total="total">
         </el-pagination>
- <tenant-add :dialogVisible="dialog" @closeAdd="_addClose" :id="childId"></tenant-add>
+ <tenant-edit :dialogVisible="dialog" @closeAdd="_addClose" :id="childId"></tenant-edit>
 </div>
 </template>
 <script>
-import TenantAdd from './Add';
+import TenantEdit from './Edit';
 export default {
   /** 页面绑定数据 */
   data() {
@@ -100,6 +106,7 @@ export default {
     },
     /**  弹出添加数据页面 @for Tenant */
     add() {
+      this.childId = '';
       this.dialog = true;
     },
     /**  删除选中数据  @for Tenant
@@ -131,10 +138,10 @@ export default {
         this.$message.error('请选择一条数据！');
         return;
       }
-      // if (tenant.(t=> t.isEnable!=isEnable)) {
-      //   this.$message.error('请选择同一种类型进行批量操作！')
-      //   return
-      // }
+      if (tenant.find(t => t.isEnable === isEnable)) {
+        this.$message.error('请选择同一种类型进行批量操作！');
+        return;
+      }
       let msg = '';
       if (isEnable) {
         msg = '是否启用该项目？';
@@ -191,11 +198,16 @@ export default {
         });
       }
       return tenant;
-    }
+    },
+    /** 页面验证
+     * @param 类型
+     * @return true 通过 false 未通过
+     */
+    checked(type) {}
   },
   /** 引用组建 */
   components: {
-    'tenant-add': TenantAdd
+    'tenant-edit': TenantEdit
   }
 };
 </script>

@@ -44,34 +44,34 @@ export default {
     return {
       tableData: [
         {
-          name: "John Smith",
-          status: "Employed",
+          name: 'John Smith',
+          status: 'Employed',
           selected: true
         },
         {
-          name: "Randal White",
-          status: "Unemployed"
+          name: 'Randal White',
+          status: 'Unemployed'
         },
         {
-          name: "Stephanie Sanders",
-          status: "Employed",
+          name: 'Stephanie Sanders',
+          status: 'Employed',
           selected: true
         },
         {
-          name: "Steve Brown",
-          status: "Employed"
+          name: 'Steve Brown',
+          status: 'Employed'
         },
         {
-          name: "Joyce Whitten",
-          status: "Employed"
+          name: 'Joyce Whitten',
+          status: 'Employed'
         },
         {
-          name: "Samuel Roberts",
-          status: "Employed"
+          name: 'Samuel Roberts',
+          status: 'Employed'
         },
         {
-          name: "Adam Moore",
-          status: "Employed"
+          name: 'Adam Moore',
+          status: 'Employed'
         }
       ],
       fixedHeader: true,
@@ -80,7 +80,7 @@ export default {
       multiSelectable: true,
       enableSelectAll: false,
       showCheckbox: true,
-      height: "300px"
+      height: '300px'
     };
   }
 };

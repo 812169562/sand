@@ -43,6 +43,16 @@ namespace Sand.Api.Controllers
             return Success(await _tenantService.RetrieveAsync(tenantQuery));
         }
 
+
+        /// <summary>
+        /// 查询租户信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Success(await _tenantService.RetrieveByIdAsync(id));
+        }
         /// <summary>
         /// 请求租户分页信息
         /// </summary>
@@ -59,7 +69,7 @@ namespace Sand.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]TenantDto tenant)
+        public async Task<IActionResult> Post(TenantDto tenant)
         {
             await _tenantService.UpdateAsync(tenant);
             return Success();
