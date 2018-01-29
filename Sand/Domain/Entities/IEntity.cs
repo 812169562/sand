@@ -248,4 +248,6 @@ namespace Sand.Domain.Entities
             if (!collection.IsValid) throw new Exceptions.Warning(collection.Select(t => t.ErrorMessage).ToList());
         }
     }
+
+    public abstract class Entity : Entity<Guid> { }
 }

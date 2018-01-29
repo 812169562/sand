@@ -43,7 +43,6 @@ namespace Sand.Api.Controllers
             return Success(await _tenantService.RetrieveAsync(tenantQuery));
         }
 
-
         /// <summary>
         /// 查询租户信息
         /// </summary>
@@ -58,7 +57,7 @@ namespace Sand.Api.Controllers
         /// </summary>
         /// <param name="query">租户查询对象</param>
         /// <returns></returns>
-        [HttpGet("page", Name = "page")]
+        [HttpGet("page")]
         public async Task<IActionResult> Page(TenantQuery tenantQuery)
         {
             return Success(await _tenantService.PageAsync(tenantQuery));
@@ -103,7 +102,7 @@ namespace Sand.Api.Controllers
         /// </summary>
         /// <param name="tenant">租户信息</param>
         /// <returns></returns>
-        [HttpPost("stop", Name = "stop")]
+        [HttpPost("stop")]
         public async Task<IActionResult> Stop(List<TenantDto> tenant, bool isEnable=false)
         {
             await _tenantService.StopOrEnableAsync(tenant, isEnable);

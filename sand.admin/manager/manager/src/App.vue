@@ -11,6 +11,7 @@
           <mu-list-item toggleNested title="租户管理">
             <!-- <mu-list-item href="#/user" slot="nested" title="租户信息"> </mu-list-item> -->
              <mu-list-item href="#/tenant" slot="nested" title="租户信息"> </mu-list-item>
+             <mu-list-item href="#/dic" slot="nested" title="字典维护"> </mu-list-item>
           </mu-list-item>
         </mu-list>
       </el-aside>

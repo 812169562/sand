@@ -9,6 +9,7 @@ using Sand.Service.Dtos.Systems;
 using Sand.Service.Contract.Systems;
 using Sand.Data.Repositories.Systems;
 using Sand.Domain.Repositories.Systems;
+using Sand.Domain.Repositories;
 
 namespace Sand.Service.Impl.Systems
 {
@@ -26,14 +27,14 @@ namespace Sand.Service.Impl.Systems
         /// <summary>
         /// 租户仓储
         /// </summary>
-        private readonly IDicRepository _dicRepository;
+        private readonly IDicsRepository _dicRepository;
 
         /// <summary>
         /// 初始化租户服务
         /// </summary>
         /// <param name="unitOfWork">工作单元</param>
         /// <param name="tenantRepository">租户仓储</param>
-        public TenantService(IUnitOfWork uow, ITenantRepository tenantRepository, IDicRepository dicRepository)
+        public TenantService(IUnitOfWork uow, ITenantRepository tenantRepository, IDicsRepository dicRepository)
             : base(uow, tenantRepository)
         {
             _tenantRepository = tenantRepository;

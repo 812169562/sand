@@ -31,7 +31,6 @@
         <mu-td>Name</mu-td>
         <mu-td>Status</mu-td>
         <mu-td>
-          
   </mu-td>
       </mu-tr>
     </mu-tfoot>

@@ -313,6 +313,9 @@ namespace Sand.Domain.Query
             throw new NotImplementedException();
         }
 
-     
+
+    }
+
+    public class BaseQuery<TEntity> : BaseQuery<TEntity, Guid> where TEntity : class, IEntity {
     }
 }

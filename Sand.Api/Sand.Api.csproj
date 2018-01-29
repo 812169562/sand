@@ -45,4 +45,8 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.0\Sand.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>

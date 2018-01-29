@@ -85,7 +85,10 @@ let Request = {
       .then(function() {
         loadingInstance.close();
       })
-      .catch(function(respose) { loadingInstance.close(); });
+      .catch(function(respose) {
+        MessageBox.alert('请求错误请联系管理员！');
+        loadingInstance.close();
+      });
   },
   /**
    * 新增操作-发起put请求,主要用于新增数据数据用
@@ -120,6 +123,7 @@ let Request = {
       })
       .catch(function(respose) {
         loadingInstance.close();
+        MessageBox.alert('请求错误请联系管理员！');
       });
   },
   /**
@@ -164,7 +168,7 @@ let Request = {
           })
           .catch(() => {
             loadingInstance.close();
-            MessageBox.alert('请求错误！');
+            MessageBox.alert('请求错误请联系管理员！');
           });
       })
       .catch(() => {});
