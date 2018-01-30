@@ -78,7 +78,7 @@ export default {
     /** 保存页面信息 */
     save() {
       let _this = this;
-      this.$request.save('tenant', { tenant: this.form }, function(respose) {
+      this.$request.save('tenant', this.form, function(respose) {
         if (respose.code === 1) {
           _this.init();
           _this.hidden(true);

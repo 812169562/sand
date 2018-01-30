@@ -84,7 +84,7 @@ export default {
     /** 保存页面信息 */
     save() {
       let _this = this;
-      this.$request.save('dics', { dics: this.form }, function(respose) {
+      this.$request.save('dics', this.form, function(respose) {
         if (respose.code === 1) {
           _this.init();
           _this.close(true);

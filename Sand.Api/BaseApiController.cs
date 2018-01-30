@@ -18,7 +18,6 @@ namespace Sand.Api
     /// <summary>
     /// api基类
     /// </summary>
-    [Route(ApiVersion)]
     [ExceptionHandler]
     public class BaseApiController : Controller
     {

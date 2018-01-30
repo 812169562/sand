@@ -8,25 +8,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sand.Result;
 
-namespace Sand.Api.Controllers {
+namespace Sand.Api.Controllers
+{
     /// <summary>
     /// 字典表控制器
     /// </summary>
     [Route("api/[controller]")]
-    public class DicsController : BaseApiController {
-         /// <summary>
+    public class DicsController : BaseApiController
+    {
+        /// <summary>
         /// 字典表服务
         /// </summary>
         private readonly IDicsService _dicsService;
-        
+
         /// <summary>
         /// 初始化字典表控制器
         /// </summary>
         /// <param name="service">字典表服务</param>
-        public DicsController( IDicsService service ){
+        public DicsController(IDicsService service)
+        {
             _dicsService = service;
         }
-        
+
         /// <summary>
         /// 查询字典表信息
         /// </summary>
@@ -34,12 +37,13 @@ namespace Sand.Api.Controllers {
         [HttpGet]
         public async Task<IActionResult> Get(DicsQuery dicsQuery)
         {
-            return Success(await  _dicsService.RetrieveAsync(dicsQuery));
+            return Success(await _dicsService.RetrieveAsync(dicsQuery));
         }
 
         /// <summary>
-        /// 查询字典表信息
+        /// 根据编号查询字典表信息
         /// </summary>
+        /// <param name="id">编号</param>
         /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
@@ -58,6 +62,12 @@ namespace Sand.Api.Controllers {
             return Success(await _dicsService.PageAsync(dicsQuery));
         }
 
+        /// <summary>
+        /// 获取父节点数据
+        /// </summary>
+        /// <param name="patientId">父节点编号</param>
+        /// <returns></returns>
+
         [HttpGet("patientnode")]
         public async Task<IActionResult> PatientNode(string patientId)
         {
@@ -70,7 +80,7 @@ namespace Sand.Api.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Post(DicsDto dics)
+        public async Task<IActionResult> Post([FromBody]DicsDto dics)
         {
             return Success(await _dicsService.CreateAsync(dics));
         }
@@ -81,7 +91,7 @@ namespace Sand.Api.Controllers {
         /// <param name="dics">字典表信息</param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Put(DicsDto dics)
+        public async Task<IActionResult> Put([FromBody]DicsDto dics)
         {
             return Success(await _dicsService.CreateAsync(dics));
         }
@@ -102,6 +112,7 @@ namespace Sand.Api.Controllers {
         /// 停用字典表信息
         /// </summary>
         /// <param name="dics">字典表信息</param>
+        /// <param name="isEnable">启用或者停用</param>
         /// <returns></returns>
         [HttpPost("stop")]
         public async Task<IActionResult> Stop(List<DicsDto> dics, bool isEnable = false)

@@ -66,9 +66,9 @@ let Request = {
     axios({
       method: 'post',
       url: url,
-      data: qs.stringify(data),
+      data: data,
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
+        'Content-type': 'application/json-patch+json'
       }
     })
       .then(function(respose) {
@@ -102,9 +102,9 @@ let Request = {
     axios({
       method: 'put',
       url: url,
-      data: qs.stringify(data),
+      data: data,
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
+        'Content-type': 'application/json-patch+json'
       }
     })
       .then(function(respose) {
